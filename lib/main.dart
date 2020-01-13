@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:journal/body.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
+
 void main() =>
     {
 //  debugPaintLayerBordersEnabled =true,
@@ -10,6 +11,8 @@ void main() =>
     };
 
 class MyApp extends StatelessWidget {
+  DateTime _date = null;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -42,7 +45,9 @@ class MyApp extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print("blub 1 tapped !");
+                  },
                   icon: Icon(
                     EvaIcons.bulbOutline,
                   ),
@@ -51,16 +56,20 @@ class MyApp extends StatelessWidget {
                 ),
                 Spacer(),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print("wrong");
+                  },
                   icon: Icon(
-                    EvaIcons.bulb,
+                    EvaIcons.plusSquareOutline,
                   ),
                   color: Colors.black,
                   iconSize: 30,
                 ),
                 Spacer(),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print("Pie chart tapped !");
+                  },
                   icon: Icon(
                     EvaIcons.pieChart,
                   ),

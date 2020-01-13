@@ -8,7 +8,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  DateTime _dateTime;
+  DateTime _dateTime = DateTime.now();
+  bool _read = true;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class _BodyState extends State<Body> {
                             initialDate:
                                 _dateTime == null ? DateTime.now() : _dateTime,
                             firstDate: DateTime(1900),
-                            lastDate: DateTime(2200))
+                        lastDate: DateTime.now())
                         .then((date) {
                       setState(() {
                         _dateTime = date;
@@ -46,9 +47,11 @@ class _BodyState extends State<Body> {
                   width: 300,
                   child: FlexibleSpaceBar(
                     title: Text(
-                      _dateTime == null
-                          ? formatDate(DateTime.now(), [M, ',', dd, ',', yyyy])
-                          : formatDate(_dateTime, [M, ',', dd, ',', yyyy]),
+                      formatDate(_dateTime == null
+                          ? DateTime
+                          .now() //formatDate(DateTime.now(), [M, ',', dd, ',', yyyy])
+                          : _dateTime, [M, ',', dd, ',', yyyy]),
+                      //formatDate(_dateTime, [M, ',', dd, ',', yyyy]),
                       style: TextStyle(fontSize: 30, color: Colors.white),
                     ),
                   ),
@@ -77,15 +80,30 @@ class _BodyState extends State<Body> {
                         ],
                         borderRadius: new BorderRadius.circular(8),
                       ),
-                      child: TextField(
-                        maxLines: 99,
-                        decoration: InputDecoration(),
+                      child: GestureDetector(
+                        onDoubleTap: () {
+                          setState(() {
+                            _read = false;
+                          });
+                        },
+                        child: TextField(
+                          maxLines: 99,
+                          decoration: InputDecoration(
+                            focusedBorder: InputBorder.none,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              _read = true;
+                            });
+                          },
+                          readOnly: _read,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-              childCount: 10,
+              childCount: 5,
             ),
           ),
         ],
