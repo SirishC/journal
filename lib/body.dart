@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:journal/data.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -9,7 +10,16 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   DateTime _dateTime = DateTime.now();
-  bool _read = true;
+  bool _test = true;
+
+  bool _read;
+  int _date = DateTime
+      .now()
+      .day * 1000000 + DateTime
+      .now()
+      .month * 10000 + DateTime
+      .now()
+      .year;
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +43,11 @@ class _BodyState extends State<Body> {
                         .then((date) {
                       setState(() {
                         _dateTime = date;
+                        _date = _dateTime.day * 1000000 + _dateTime.month *
+                            10000 + _dateTime.year;
                       });
                     });
+
                   }),
             ],
             pinned: true,
@@ -86,24 +99,31 @@ class _BodyState extends State<Body> {
                             _read = false;
                           });
                         },
-                        child: TextField(
-                          maxLines: 99,
-                          decoration: InputDecoration(
-                            focusedBorder: InputBorder.none,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              _read = true;
-                            });
-                          },
-                          readOnly: _read,
-                        ),
+//                        child: TextField(
+//                          maxLines: 99,
+//                          decoration: InputDecoration(
+//                            focusedBorder: InputBorder.none,
+//                          ),
+//                          onTap: () {
+//                            setState(() {
+//                              print("hello");
+//                            });
+//                          },
+//                          readOnly: _read,
+//                        ),
+                        child: Text(events[index]),
+                        onTap: () {
+                          print(_date);
+                          setState(() {
+                            _read = true;
+                          });
+                        },
                       ),
                     ),
                   ),
                 ),
               ),
-              childCount: 5,
+              childCount: _date == 14012020 ? events.length : 0,
             ),
           ),
         ],
