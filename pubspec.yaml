@@ -29,7 +29,7 @@ dependencies:
   date_format: ^1.0.6
   google_fonts: ^0.2.0
   flutter_rounded_date_picker: ^0.3.0
-
+  eva_icons_flutter: ^2.0.0
 
 dev_dependencies:
   flutter_test:

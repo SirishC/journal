@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:journal/home.dart';
+import 'package:flutter/rendering.dart';
+import 'package:journal/body.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
-void main() {
-  runApp(new MyApp());
-}
+void main() =>
+    {
+//  debugPaintLayerBordersEnabled =true,
+      runApp(new MyApp()),
+    };
 
 class MyApp extends StatelessWidget {
   @override
@@ -15,24 +19,24 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'RobotoMono'),
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xff232f34),
           title: Text(
             'Welcome, Sirish C',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
           ),
           actions: <Widget>[
             IconButton(
               onPressed: () {},
               icon: Icon(Icons.account_circle),
-              color: Colors.black,
+              color: Color(0xffF9AA33),
             ),
           ],
         ),
-        body: Home(),
+        body: Body(),
         bottomNavigationBar: BottomAppBar(
           elevation: 10.0,
           child: Container(
-            color: Colors.white,
+            color: Color(0xffF9AA33),
             height: 80.0,
             padding: EdgeInsets.symmetric(horizontal: 60.0),
             child: Row(
@@ -40,7 +44,7 @@ class MyApp extends StatelessWidget {
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
-                    Icons.dehaze,
+                    EvaIcons.bulbOutline,
                   ),
                   color: Colors.black,
                   iconSize: 30,
@@ -49,7 +53,7 @@ class MyApp extends StatelessWidget {
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
-                    Icons.add_to_photos,
+                    EvaIcons.bulb,
                   ),
                   color: Colors.black,
                   iconSize: 30,
@@ -58,7 +62,7 @@ class MyApp extends StatelessWidget {
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
-                    Icons.pie_chart,
+                    EvaIcons.pieChart,
                   ),
                   color: Colors.black,
                   iconSize: 30,
