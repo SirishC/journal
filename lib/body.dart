@@ -11,7 +11,6 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   DateTime _dateTime = DateTime.now();
   bool _test = true;
-
   bool _read;
   int _date = DateTime
       .now()
@@ -49,6 +48,16 @@ class _BodyState extends State<Body> {
                     });
 
                   }),
+              IconButton(
+                  icon: Icon(EvaIcons.plus),
+                  color: Color(0xffF9AA33),
+                  onPressed: () {
+                    setState(() {
+                      data.add(_date, "feed messages");
+                      print("added");
+                    });
+                  }
+              ),
             ],
             pinned: true,
             backgroundColor: Color(0xff232f34),
@@ -111,7 +120,12 @@ class _BodyState extends State<Body> {
 //                          },
 //                          readOnly: _read,
 //                        ),
-                        child: Text(events[index]),
+                        child: Text(data.containsKey(_date) ? data.items[data
+                            .getKey(_date)].feeds[index] : [],
+                          style: TextStyle(
+                              fontFamily: 'GoogleSans'
+                          ),
+                        ),
                         onTap: () {
                           print(_date);
                           setState(() {
@@ -123,7 +137,8 @@ class _BodyState extends State<Body> {
                   ),
                 ),
               ),
-              childCount: _date == 14012020 ? events.length : 0,
+              childCount: data.containsKey(_date) ? data.items[data.getKey(
+                  _date)].feeds.length : 0,
             ),
           ),
         ],
@@ -131,3 +146,5 @@ class _BodyState extends State<Body> {
     );
   }
 }
+
+

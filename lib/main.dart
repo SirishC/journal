@@ -21,20 +21,20 @@ class MyApp extends StatelessWidget {
       title: "Introspective Journal",
       theme: ThemeData(fontFamily: 'RobotoMono'),
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff232f34),
-          title: Text(
-            'Welcome, Sirish C',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.account_circle),
-              color: Color(0xffF9AA33),
-            ),
-          ],
-        ),
+//        appBar: AppBar(
+//          backgroundColor: Color(0xff232f34),
+//          title: Text(
+//            'Welcome, Sirish C',
+//            style: TextStyle(color: Colors.white),
+//          ),
+//          actions: <Widget>[
+//            IconButton(
+//              onPressed: () {},
+//              icon: Icon(Icons.account_circle),
+//              color: Color(0xffF9AA33),
+//            ),
+//          ],
+//        ),
         body: Body(),
         bottomNavigationBar: BottomAppBar(
           elevation: 10.0,
