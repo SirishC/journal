@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:journal/data.dart';
+import 'package:journal/data/data.dart';
+import 'package:journal/data/entry.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -52,6 +53,7 @@ class _BodyState extends State<Body> {
                   icon: Icon(EvaIcons.plus),
                   color: Color(0xffF9AA33),
                   onPressed: () {
+                    MaterialPageRoute(builder: (context) => Entry());
                     setState(() {
                       data.add(_date, "feed messages");
                       print("added");
