@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // Holds the Screen Number .
-  int currentTab = 0;
+  int currentTab = 2;
 
   // Screens List .
   final List<Widget> screens = [Search(), MyHome(), StartUp(), Statistics()];
@@ -28,22 +28,13 @@ class _HomeState extends State<Home> {
         child: currentScreen,
         bucket: bucket,
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: Color(0xffFF7582),
-        onPressed: () {},
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
         notchMargin: 10,
         child: Container(
           height: 60,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   MaterialButton(
                     minWidth: 40,
@@ -100,15 +91,7 @@ class _HomeState extends State<Home> {
                         ),
                       ],
                     ),
-                  )
-                ],
-              ),
-
-              // Right Tab bar icons
-
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                  ),
                   MaterialButton(
                     minWidth: 40,
                     onPressed: () {
@@ -124,7 +107,7 @@ class _HomeState extends State<Home> {
                         Icon(
                           EvaIcons.bookOutline,
                           color:
-                              currentTab == 2 ? Color(0xffFF7582) : Colors.grey,
+                          currentTab == 2 ? Color(0xffFF7582) : Colors.grey,
                         ),
                         Text(
                           'Feeds',
@@ -152,7 +135,7 @@ class _HomeState extends State<Home> {
                         Icon(
                           EvaIcons.barChart2,
                           color:
-                              currentTab == 3 ? Color(0xffFF7582) : Colors.grey,
+                          currentTab == 3 ? Color(0xffFF7582) : Colors.grey,
                         ),
                         Text(
                           'Statistics',
@@ -166,9 +149,8 @@ class _HomeState extends State<Home> {
                     ),
                   )
                 ],
-              )
-            ],
           ),
+
         ),
       ),
     );
