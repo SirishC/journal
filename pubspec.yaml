@@ -31,6 +31,7 @@ dependencies:
   flutter_rounded_date_picker: ^0.3.0
   eva_icons_flutter: ^2.0.0
   charts_flutter: ^0.8.1
+  flutter_slidable: "^0.5.4"
 
 dev_dependencies:
   flutter_test:

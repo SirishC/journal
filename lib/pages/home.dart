@@ -28,8 +28,18 @@ class _HomeState extends State<Home> {
         child: currentScreen,
         bucket: bucket,
       ),
+//      floatingActionButton: FloatingActionButton.extended(
+//        elevation: 4.0,
+//        label: const Text('+',
+//          style: TextStyle(fontSize: 25),
+//        ),
+//        onPressed: () {},
+//      ),
+//      floatingActionButtonLocation:
+//      FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        notchMargin: 10,
+//        shape: CircularNotchedRectangle(),
+        notchMargin: 2,
         child: Container(
           height: 60,
           child: Row(

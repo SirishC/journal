@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:journal/pages/bargraph.dart';
 import 'package:journal/pages/piegraph.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 class Statistics extends StatefulWidget {
   @override
   _StatisticsState createState() => _StatisticsState();
@@ -61,25 +62,23 @@ class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          leading: IconButton(
+            icon: Icon(EvaIcons.menu2Outline,
+              color: Color(0xffFF7582),),
+            iconSize: 35,
+            onPressed: () {},
+          ),
+
+          title: Text("Statistics",
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.normal),),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                child: Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Image.asset('assets/images/menu.png'),
-                      iconSize: 50,
-                      onPressed: () {},
-                    ),
-                    Text(
-                      "Statistics",
-                      style: TextStyle(fontSize: 30),
-                    ),
-                  ],
-                ),
-              ),
+
               Container(
                 height: 100,
               ),
@@ -138,6 +137,7 @@ class _StatisticsState extends State<Statistics> {
             ],
           ),
         )
+
     );
   }
 }

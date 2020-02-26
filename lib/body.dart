@@ -35,10 +35,10 @@ class _BodyState extends State<Body> {
                   color: Color(0xffF9AA33),
                   onPressed: () {
                     showDatePicker(
-                            context: context,
-                            initialDate:
-                                _dateTime == null ? DateTime.now() : _dateTime,
-                            firstDate: DateTime(1900),
+                        context: context,
+                        initialDate:
+                        _dateTime == null ? DateTime.now() : _dateTime,
+                        firstDate: DateTime(1900),
                         lastDate: DateTime.now())
                         .then((date) {
                       setState(() {
@@ -85,7 +85,8 @@ class _BodyState extends State<Body> {
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) => ListTile(
+                  (context, index) =>
+                  ListTile(
                 title: Container(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
@@ -122,8 +123,7 @@ class _BodyState extends State<Body> {
 //                          },
 //                          readOnly: _read,
 //                        ),
-                        child: Text(data.containsKey(_date) ? data.items[data
-                            .getKey(_date)].feeds[index] : [],
+                        child: Text("Feeds",
                           style: TextStyle(
                               fontFamily: 'GoogleSans'
                           ),
@@ -139,8 +139,7 @@ class _BodyState extends State<Body> {
                   ),
                 ),
               ),
-              childCount: data.containsKey(_date) ? data.items[data.getKey(
-                  _date)].feeds.length : 0,
+              childCount: 5,
             ),
           ),
         ],
@@ -148,5 +147,3 @@ class _BodyState extends State<Body> {
     );
   }
 }
-
-
