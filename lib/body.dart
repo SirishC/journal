@@ -55,7 +55,7 @@ class _BodyState extends State<Body> {
                   onPressed: () {
                     MaterialPageRoute(builder: (context) => Entry());
                     setState(() {
-                      data.add(_date, "feed messages");
+                      data.add("sir", "feed messages");
                       print("added");
                     });
                   }

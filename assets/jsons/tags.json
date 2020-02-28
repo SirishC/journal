@@ -1,0 +1,44 @@
+{
+  "tags": [
+    {
+      "id": 1,
+      "keyword": "sad"
+    },
+    {
+      "id": 2,
+      "keyword": "happy"
+    },
+    {
+      "id": 3,
+      "keyword": "fearful"
+    },
+    {
+      "id": 4,
+      "keyword": "angry"
+    },
+    {
+      "id": 5,
+      "keyword": "disgusted"
+    },
+    {
+      "id": 6,
+      "keyword": "surprised"
+    },
+    {
+      "id": 7,
+      "keyword": "bad"
+    },
+    {
+      "id": 8,
+      "keyword": "sirish"
+    },
+    {
+      "id": 9,
+      "keyword": "preethi"
+    },
+    {
+      "id": 10,
+      "keyword": "murali"
+    }
+  ]
+}
