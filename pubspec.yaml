@@ -34,6 +34,8 @@ dependencies:
   flutter_slidable: "^0.5.4"
   autocomplete_textfield: ^1.6.4
   flutter_calendar: ^0.0.8
+  rflutter_alert: ^1.0.3
+  dropdownfield: 1.0.0
 
 dev_dependencies:
   flutter_test:

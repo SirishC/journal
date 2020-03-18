@@ -3,6 +3,7 @@ import 'package:date_format/date_format.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:journal/data/data.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class StartUp extends StatefulWidget {
   StartUp({
@@ -17,6 +18,7 @@ class _StartUpState extends State<StartUp> {
   DateTime _dateTime = DateTime.now();
   double _slide = 0.25;
   TextEditingController eventController = new TextEditingController();
+
   FocusNode myFocusNode;
 
   @override
@@ -123,9 +125,10 @@ class _StartUpState extends State<StartUp> {
                             icon: EvaIcons.pricetags,
                             onTap: () {
                               setState(() {
-                                print("add");
+                                _onAlertWithCustomContentPressed(context);
                               });
                             },
+
                           ),
                         ),
                       ],
@@ -139,6 +142,48 @@ class _StartUpState extends State<StartUp> {
         ),
       ),
     );
+  }
+
+
+  _onAlertWithCustomContentPressed(context) {
+    TextEditingController tagController_type = new TextEditingController();
+    TextEditingController tagController_name = new TextEditingController();
+    Alert(
+        context: context,
+        title: "ADD TAGS",
+        content: Column(
+          children: <Widget>[
+            TextField(
+              controller: tagController_type,
+              decoration: InputDecoration(
+                icon: Icon(Icons.tag_faces),
+                labelText: 'TAG TYPE',
+              ),
+            ),
+            TextField(
+              controller: tagController_name,
+              decoration: InputDecoration(
+                icon: Icon(EvaIcons.pricetags),
+                labelText: 'TAG NAME',
+              ),
+            ),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            onPressed: () {
+              setState(() {
+                print(
+                    tagController_type.text + " : " + tagController_name.text);
+              });
+              Navigator.pop(context);
+            },
+            child: Text(
+              "ADD TAG",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ]).show();
   }
 }
 

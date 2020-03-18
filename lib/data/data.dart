@@ -31,6 +31,8 @@ class Data {
   }
 
   void add(String date, String feed) {
+    if (!items.isEmpty)
+      items.clear();
     if (!data.containsKey(date)) {
       items.add(Feeds(date, feed));
     } else {
