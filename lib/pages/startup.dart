@@ -223,40 +223,28 @@ _splitFeeds(index) {
   for (int i = 0; i < index; i++) {
     temp.add(feedData[i]);
   }
-  print(temp);
   if (feedData[index].selection.extentOffset -
       feedData[index].selection.baseOffset != 0) {
-    print(temp.length);
 
     if (feedData[index].selection.baseOffset != 0) {
       temp.add(TextEditingController(text: feedData[index].text.substring(
           0, feedData[index].selection.baseOffset).trim()));
-//      print(feedData[index].text.substring(0, feedData[index].selection.baseOffset));
-//      print("____________________________________________-");
     }
 
     temp.add(TextEditingController(text: feedData[index].text.substring(
         feedData[index].selection.baseOffset,
         feedData[index].selection.extentOffset).trim()));
-//    print(feedData[index].text.substring(feedData[index].selection.baseOffset, feedData[index].selection.extentOffset));
-
 
     if (feedData[index].selection.extentOffset != feedData[index].text.length) {
       temp.add(TextEditingController(text: feedData[index].text.substring(
           feedData[index].selection.extentOffset, feedData[index].text.length)
           .trim()));
-//      print("____________________________________________-");
-//      print(feedData[index].text.substring(feedData[index].selection.extentOffset, feedData[index].text.length));
     }
   } else {
     temp.add(feedData[index]);
-//    print("empty");
   }
   for (int i = index + 1; i < feedData.length; i++) {
     temp.add(feedData[i]);
   }
   feedData = temp;
-//  print(feedData.length);
-//  _print();
-
 }
