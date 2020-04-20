@@ -85,21 +85,30 @@ class _StartUpState extends State<StartUp> {
                       padding:
                       EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: Container(
-                        child: TextField(
-                          onChanged: (_) {
-                            setState(() {
-                              _isVisible = true;
-                            });
-                          },
-                          controller: feedData[index],
-                          keyboardType: TextInputType.multiline,
-                          autofocus: true,
-                          maxLines: null,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Enter how your day went.",
-                          ),
-                        ),
+                          child: Column(
+                            children: <Widget>[
+                              TextField(
+                                onChanged: (_) {
+                                  setState(() {
+                                    _isVisible = true;
+                                  });
+                                },
+                                controller: feedData[index].feed,
+                                keyboardType: TextInputType.multiline,
+                                autofocus: true,
+                                maxLines: null,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Enter how your day went.",
+                                ),
+                              ),
+//                            Container(
+//                              child: Text(
+//                                "${feedData[index].tags}"
+//                              ),
+//                            )
+                            ],
+                          )
                       ),
                     ),
                     secondaryActions: <Widget>[
@@ -146,51 +155,23 @@ class _StartUpState extends State<StartUp> {
   }
 
 
-  _onAlertWithCustomContentPressed(context) {
+  _onAlertWithCustomContentPressed(index) {
     TextEditingController tagController_type = new TextEditingController();
     TextEditingController tagController_name = new TextEditingController();
-    String tagSelect = null;
 
     Alert(
         context: context,
         title: "ADD TAGS",
         content: Column(
           children: <Widget>[
-//            TextField(
-//              controller: tagController_type,
-//              decoration: InputDecoration(
-//                icon: Icon(Icons.tag_faces),
-//                labelText: 'TAG TYPE',
-//              ),
-//            ),
-
-            DropdownButton<String>(
-              value: dropdownValue,
-              icon: Icon(Icons.arrow_downward),
-              iconSize: 24,
-              elevation: 16,
-              style: TextStyle(
-                  color: Colors.deepPurple
+            TextField(
+              controller: tagController_type,
+              decoration: InputDecoration(
+                icon: Icon(Icons.tag_faces),
+                labelText: 'TAG TYPE',
               ),
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (String newValue) {
-                dropdownValue = newValue;
-//            setState(() {
-//              dropdownValue = newValue;
-//            });
-              },
-              items: <String>['Emotion', 'Person', 'Custom']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              })
-                  .toList(),
             ),
+
             TextField(
               controller: tagController_name,
               decoration: InputDecoration(
@@ -204,6 +185,8 @@ class _StartUpState extends State<StartUp> {
           DialogButton(
             onPressed: () {
               setState(() {
+                feedData[index].tags.add(
+                    Tags(tagController_type.text, tagController_name.text));
                 print(
                     tagController_type.text + " : " + tagController_name.text);
               });
@@ -219,28 +202,33 @@ class _StartUpState extends State<StartUp> {
 }
 
 _splitFeeds(index) {
-  List<TextEditingController> temp = [];
+  List<Feeds> temp = [];
   for (int i = 0; i < index; i++) {
     temp.add(feedData[i]);
   }
-  if (feedData[index].selection.extentOffset -
-      feedData[index].selection.baseOffset != 0) {
-
-    if (feedData[index].selection.baseOffset != 0) {
-      temp.add(TextEditingController(text: feedData[index].text.substring(
-          0, feedData[index].selection.baseOffset).trim()));
+  if (feedData[index].feed.selection.extentOffset -
+      feedData[index].feed.selection.baseOffset != 0) {
+    if (feedData[index].feed.selection.baseOffset != 0) {
+      temp.add(
+          Feeds(TextEditingController(text: feedData[index].feed.text.substring(
+              0, feedData[index].feed.selection.baseOffset).trim())));
     }
 
-    temp.add(TextEditingController(text: feedData[index].text.substring(
-        feedData[index].selection.baseOffset,
-        feedData[index].selection.extentOffset).trim()));
+    temp.add(
+        Feeds(TextEditingController(text: feedData[index].feed.text.substring(
+            feedData[index].feed.selection.baseOffset,
+            feedData[index].feed.selection.extentOffset).trim())));
 
-    if (feedData[index].selection.extentOffset != feedData[index].text.length) {
-      temp.add(TextEditingController(text: feedData[index].text.substring(
-          feedData[index].selection.extentOffset, feedData[index].text.length)
-          .trim()));
+    if (feedData[index].feed.selection.extentOffset !=
+        feedData[index].feed.text.length) {
+      temp.add(
+          Feeds(TextEditingController(text: feedData[index].feed.text.substring(
+              feedData[index].feed.selection.extentOffset,
+              feedData[index].feed.text.length)
+              .trim())));
     }
   } else {
+    print("please select the text to be tagged ");
     temp.add(feedData[index]);
   }
   for (int i = index + 1; i < feedData.length; i++) {
