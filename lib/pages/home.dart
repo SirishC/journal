@@ -44,124 +44,115 @@ class _HomeState extends State<Home> {
         child: Container(
           height: 60,
           child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  MaterialButton(
-                    minWidth: 40,
-                    onPressed: () {
-                      setState(() {
-                        currentScreen =
-                            Search(); // if user taps on this dashboard tab will be active
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          EvaIcons.searchOutline,
-                          color:
-                              currentTab == 0 ? Color(0xffFF7582) : Colors.grey,
-                        ),
-                        Text(
-                          'Search',
-                          style: TextStyle(
-                            color: currentTab == 0
-                                ? Color(0xffFF7582)
-                                : Colors.grey,
-                          ),
-                        ),
-                      ],
+            children: <Widget>[
+              MaterialButton(
+                minWidth: 40,
+                onPressed: () {
+                  setState(() {
+                    currentScreen =
+                        Search(); // if user taps on this dashboard tab will be active
+                    currentTab = 0;
+                  });
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      EvaIcons.searchOutline,
+                      color: currentTab == 0 ? Color(0xffFF7582) : Colors.grey,
                     ),
-                  ),
-                  MaterialButton(
-                    minWidth: 40,
-                    onPressed: () {
-                      setState(() {
-                        currentScreen =
-                            MyHome(); // if user taps on this dashboard tab will be active
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          EvaIcons.homeOutline,
-                          color:
-                              currentTab == 1 ? Color(0xffFF7582) : Colors.grey,
-                        ),
-                        Text(
-                          'Home',
-                          style: TextStyle(
-                            color: currentTab == 1
-                                ? Color(0xffFF7582)
-                                : Colors.grey,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'Search',
+                      style: TextStyle(
+                        color:
+                        currentTab == 0 ? Color(0xffFF7582) : Colors.grey,
+                      ),
                     ),
-                  ),
-                  MaterialButton(
-                    minWidth: 40,
-                    onPressed: () {
-                      setState(() {
-                        currentScreen =
-                            StartUp(); // if user taps on this dashboard tab will be active
-                        currentTab = 2;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          EvaIcons.bookOutline,
-                          color:
-                          currentTab == 2 ? Color(0xffFF7582) : Colors.grey,
-                        ),
-                        Text(
-                          'Feeds',
-                          style: TextStyle(
-                            color: currentTab == 2
-                                ? Color(0xffFF7582)
-                                : Colors.grey,
-                          ),
-                        ),
-                      ],
+                  ],
+                ),
+              ),
+              MaterialButton(
+                minWidth: 40,
+                onPressed: () {
+                  setState(() {
+                    currentScreen =
+                        MyHome(); // if user taps on this dashboard tab will be active
+                    currentTab = 1;
+                  });
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      EvaIcons.homeOutline,
+                      color: currentTab == 1 ? Color(0xffFF7582) : Colors.grey,
                     ),
-                  ),
-                  MaterialButton(
-                    minWidth: 40,
-                    onPressed: () {
-                      setState(() {
-                        currentScreen =
-                            Statistics(); // if user taps on this dashboard tab will be active
-                        currentTab = 3;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          EvaIcons.barChart2,
-                          color:
-                          currentTab == 3 ? Color(0xffFF7582) : Colors.grey,
-                        ),
-                        Text(
-                          'Statistics',
-                          style: TextStyle(
-                            color: currentTab == 3
-                                ? Color(0xffFF7582)
-                                : Colors.grey,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'Home',
+                      style: TextStyle(
+                        color:
+                        currentTab == 1 ? Color(0xffFF7582) : Colors.grey,
+                      ),
                     ),
-                  )
-                ],
+                  ],
+                ),
+              ),
+              MaterialButton(
+                minWidth: 40,
+                onPressed: () {
+                  setState(() {
+                    currentScreen =
+                        StartUp(); // if user taps on this dashboard tab will be active
+                    currentTab = 2;
+                  });
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      EvaIcons.bookOutline,
+                      color: currentTab == 2 ? Color(0xffFF7582) : Colors.grey,
+                    ),
+                    Text(
+                      'Feeds',
+                      style: TextStyle(
+                        color:
+                        currentTab == 2 ? Color(0xffFF7582) : Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              MaterialButton(
+                minWidth: 40,
+                onPressed: () {
+                  setState(() {
+                    currentScreen =
+                        Statistics(); // if user taps on this dashboard tab will be active
+                    currentTab = 3;
+                  });
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      EvaIcons.barChart2,
+                      color: currentTab == 3 ? Color(0xffFF7582) : Colors.grey,
+                    ),
+                    Text(
+                      'Statistics',
+                      style: TextStyle(
+                        color:
+                        currentTab == 3 ? Color(0xffFF7582) : Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
-
         ),
       ),
     );

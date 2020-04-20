@@ -15,14 +15,17 @@ class _MyHomeState extends State<MyHome> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           leading: IconButton(
-            icon: Icon(EvaIcons.menu2Outline,
-              color: Color(0xffFF7582),),
+            icon: Icon(
+              EvaIcons.menu2Outline,
+              color: Color(0xffFF7582),
+            ),
             iconSize: 35,
             onPressed: () {},
           ),
-
-          title: Text("My Home",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.normal),),
+          title: Text(
+            "My Home",
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.normal),
+          ),
         ),
         body: new Calendar(
           // A builder function that renders each calendar tile how you'd like.
@@ -30,8 +33,7 @@ class _MyHomeState extends State<MyHome> {
           //dayBuilder: (BuildContext context, DateTime day) {
           //return new Text("!");
           //},
-        )
-
-    );
+        ));
   }
 }
+

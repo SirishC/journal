@@ -16,23 +16,17 @@ class StartUp extends StatefulWidget {
 
 class _StartUpState extends State<StartUp> {
   DateTime _dateTime = DateTime.now();
-  double _slide = 0.25;
-  TextEditingController eventController = new TextEditingController();
+  bool _isVisible = false;
+  String dropdownValue = 'Emotion';
 
-  FocusNode myFocusNode;
 
   @override
   void initState() {
     super.initState();
-
-    myFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
-    // Clean up the focus node when the Form is disposed.
-    myFocusNode.dispose();
-
     super.dispose();
   }
 
@@ -73,72 +67,79 @@ class _StartUpState extends State<StartUp> {
                     .then((date) {
                   setState(() {
                     _dateTime = date;
-                    eventController.text =
-                        data.getEvent(formatDate(_dateTime, [dd, mm, yyyy]));
-//                      _date = _dateTime.day * 1000000 + _dateTime.month *
-//                          10000 + _dateTime.year;
                   });
                 });
               }),
         ],
       ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-          setState(() {
-            data.add(
-                formatDate(_dateTime, [dd, mm, yyyy]), eventController.text);
-            print("added filed");
-          });
-        },
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  return Container(
-                    child: Slidable(
-                      actionPane: SlidableDrawerActionPane(),
-                      actionExtentRatio: 0.25,
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                return Container(
+                  child: Slidable(
+                    actionPane: SlidableDrawerActionPane(),
+                    actionExtentRatio: 0.25,
+                    child: Container(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: Container(
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: Container(
-                          child: TextField(
-                            controller: eventController,
-                            keyboardType: TextInputType.multiline,
-                            autofocus: true,
-                            maxLines: null,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Enter how your day went.",
-                            ),
+                        child: TextField(
+                          onChanged: (_) {
+                            setState(() {
+                              _isVisible = true;
+                            });
+                          },
+                          controller: feedData[index],
+                          keyboardType: TextInputType.multiline,
+                          autofocus: true,
+                          maxLines: null,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter how your day went.",
                           ),
                         ),
-
                       ),
-                      secondaryActions: <Widget>[
-                        GestureDetector(
-                          child: IconSlideAction(
-                            caption: 'Add Tags',
-                            color: Color(0xffFF7582),
-                            icon: EvaIcons.pricetags,
-                            onTap: () {
-                              setState(() {
-                                _onAlertWithCustomContentPressed(context);
-                              });
-                            },
-
-                          ),
-                        ),
-                      ],
                     ),
-                  );
-                },
-                childCount: 1,
-              ),
-            )
-          ],
+                    secondaryActions: <Widget>[
+                      GestureDetector(
+                        child: IconSlideAction(
+                          caption: 'Add Tags',
+                          color: Color(0xffFF7582),
+                          icon: EvaIcons.pricetags,
+                          onTap: () {
+                            setState(() {
+//                              print("Starting Index : ${feedData[index].selection.baseOffset}" );
+//                              print("Ending Index : ${feedData[index].selection.extentOffset}" );
+                              _splitFeeds(index);
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              childCount: feedData.length,
+//              childCount: 0,
+            ),
+          )
+        ],
+      ),
+      floatingActionButton: Visibility(
+        visible: _isVisible,
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.done,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            setState(() {
+              _isVisible = false;
+            });
+          },
         ),
       ),
     );
@@ -148,17 +149,47 @@ class _StartUpState extends State<StartUp> {
   _onAlertWithCustomContentPressed(context) {
     TextEditingController tagController_type = new TextEditingController();
     TextEditingController tagController_name = new TextEditingController();
+    String tagSelect = null;
+
     Alert(
         context: context,
         title: "ADD TAGS",
         content: Column(
           children: <Widget>[
-            TextField(
-              controller: tagController_type,
-              decoration: InputDecoration(
-                icon: Icon(Icons.tag_faces),
-                labelText: 'TAG TYPE',
+//            TextField(
+//              controller: tagController_type,
+//              decoration: InputDecoration(
+//                icon: Icon(Icons.tag_faces),
+//                labelText: 'TAG TYPE',
+//              ),
+//            ),
+
+            DropdownButton<String>(
+              value: dropdownValue,
+              icon: Icon(Icons.arrow_downward),
+              iconSize: 24,
+              elevation: 16,
+              style: TextStyle(
+                  color: Colors.deepPurple
               ),
+              underline: Container(
+                height: 2,
+                color: Colors.deepPurpleAccent,
+              ),
+              onChanged: (String newValue) {
+                dropdownValue = newValue;
+//            setState(() {
+//              dropdownValue = newValue;
+//            });
+              },
+              items: <String>['Emotion', 'Person', 'Custom']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              })
+                  .toList(),
             ),
             TextField(
               controller: tagController_name,
@@ -187,11 +218,45 @@ class _StartUpState extends State<StartUp> {
   }
 }
 
-/*
+_splitFeeds(index) {
+  List<TextEditingController> temp = [];
+  for (int i = 0; i < index; i++) {
+    temp.add(feedData[i]);
+  }
+  print(temp);
+  if (feedData[index].selection.extentOffset -
+      feedData[index].selection.baseOffset != 0) {
+    print(temp.length);
+
+    if (feedData[index].selection.baseOffset != 0) {
+      temp.add(TextEditingController(text: feedData[index].text.substring(
+          0, feedData[index].selection.baseOffset).trim()));
+//      print(feedData[index].text.substring(0, feedData[index].selection.baseOffset));
+//      print("____________________________________________-");
+    }
+
+    temp.add(TextEditingController(text: feedData[index].text.substring(
+        feedData[index].selection.baseOffset,
+        feedData[index].selection.extentOffset).trim()));
+//    print(feedData[index].text.substring(feedData[index].selection.baseOffset, feedData[index].selection.extentOffset));
 
 
+    if (feedData[index].selection.extentOffset != feedData[index].text.length) {
+      temp.add(TextEditingController(text: feedData[index].text.substring(
+          feedData[index].selection.extentOffset, feedData[index].text.length)
+          .trim()));
+//      print("____________________________________________-");
+//      print(feedData[index].text.substring(feedData[index].selection.extentOffset, feedData[index].text.length));
+    }
+  } else {
+    temp.add(feedData[index]);
+//    print("empty");
+  }
+  for (int i = index + 1; i < feedData.length; i++) {
+    temp.add(feedData[i]);
+  }
+  feedData = temp;
+//  print(feedData.length);
+//  _print();
 
-
-
-
- */
+}

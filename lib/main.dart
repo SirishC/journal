@@ -3,6 +3,7 @@ import 'package:journal/body.dart';
 import 'package:journal/pages/home.dart';
 
 void main() => runApp(MyApp());
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -12,8 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.accent),
           accentColor: Color(0xffFF7582),
-          primaryColor: Color(0xffFF7582)
-      ),
+          primaryColor: Color(0xffFF7582)),
       title: 'Flutter Demo',
       home: Home(),
     );

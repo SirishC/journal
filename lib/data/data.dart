@@ -1,6 +1,11 @@
 import 'dart:io';
-
+import 'package:flutter/material.dart';
 var data = Data();
+
+TextEditingController init = new TextEditingController();
+List<TextEditingController> feedData = [
+  init
+];
 
 class Feeds {
   String date = null;
@@ -31,8 +36,7 @@ class Data {
   }
 
   void add(String date, String feed) {
-    if (!items.isEmpty)
-      items.clear();
+    if (!items.isEmpty) items.clear();
     if (!data.containsKey(date)) {
       items.add(Feeds(date, feed));
     } else {
@@ -59,4 +63,3 @@ class Data {
     return "";
   }
 }
-
