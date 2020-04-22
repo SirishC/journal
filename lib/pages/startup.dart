@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:journal/data/data.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+
 class StartUp extends StatefulWidget {
   StartUp({
     Key key,
@@ -87,26 +88,27 @@ class _StartUpState extends State<StartUp> {
                       child: Container(
                           child: Column(
                             children: <Widget>[
-                              TextField(
-                                onChanged: (_) {
-                                  setState(() {
-                                    _isVisible = true;
-                                  });
-                                },
-                                controller: feedData[index].feed,
-                                keyboardType: TextInputType.multiline,
-                                autofocus: true,
-                                maxLines: null,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter how your day went.",
+                              GestureDetector(
+                                child: TextField(
+
+                                  onChanged: (_) {
+                                    setState(() {
+                                      _isVisible = true;
+                                    });
+                                  },
+                                  controller: feedData[index].feed,
+                                  keyboardType: TextInputType.multiline,
+                                  autofocus: true,
+                                  maxLines: null,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter how your day went.",
+                                  ),
                                 ),
                               ),
-//                            Container(
-//                              child: Text(
-//                                "${feedData[index].tags}"
-//                              ),
-//                            )
+                              Text(" No of Tagged :${feedData[index].tags
+                                  .length}")
+
                             ],
                           )
                       ),
@@ -121,7 +123,8 @@ class _StartUpState extends State<StartUp> {
                             setState(() {
 //                              print("Starting Index : ${feedData[index].selection.baseOffset}" );
 //                              print("Ending Index : ${feedData[index].selection.extentOffset}" );
-                              _splitFeeds(index);
+                              Tags tag = _onAlertWithCustomContentPressed();
+                              _splitFeeds(index, tag);
                             });
                           },
                         ),
@@ -154,8 +157,8 @@ class _StartUpState extends State<StartUp> {
     );
   }
 
-
-  _onAlertWithCustomContentPressed(index) {
+  Tags _onAlertWithCustomContentPressed() {
+    Tags tag;
     TextEditingController tagController_type = new TextEditingController();
     TextEditingController tagController_name = new TextEditingController();
 
@@ -185,8 +188,8 @@ class _StartUpState extends State<StartUp> {
           DialogButton(
             onPressed: () {
               setState(() {
-                feedData[index].tags.add(
-                    Tags(tagController_type.text, tagController_name.text));
+                tag =
+                new Tags(tagController_type.text, tagController_name.text);
                 print(
                     tagController_type.text + " : " + tagController_name.text);
               });
@@ -198,41 +201,57 @@ class _StartUpState extends State<StartUp> {
             ),
           )
         ]).show();
+    return tag;
   }
-}
 
-_splitFeeds(index) {
-  List<Feeds> temp = [];
-  for (int i = 0; i < index; i++) {
-    temp.add(feedData[i]);
-  }
-  if (feedData[index].feed.selection.extentOffset -
-      feedData[index].feed.selection.baseOffset != 0) {
-    if (feedData[index].feed.selection.baseOffset != 0) {
-      temp.add(
-          Feeds(TextEditingController(text: feedData[index].feed.text.substring(
-              0, feedData[index].feed.selection.baseOffset).trim())));
+  _splitFeeds(index, tag) {
+    List<Feeds> temp = [];
+    for (int i = 0; i < index; i++) {
+      temp.add(feedData[i]);
     }
+    if (feedData[index].feed.selection.extentOffset -
+        feedData[index].feed.selection.baseOffset != 0) {
+      if (feedData[index].feed.selection.baseOffset != 0) {
+        Feeds feed = Feeds(TextEditingController(
+            text: feedData[index].feed.text.substring(
+                0, feedData[index].feed.selection.baseOffset).trim()));
+        print(feedData[index].tags.length);
+        feed.tags = feedData[index].tags;
+        print("UPPER TEXT :${feed.tags.length}");
+        temp.add(feed);
+      }
+      Feeds feedMid = Feeds(
+          TextEditingController(text: feedData[index].feed.text.substring(
+              feedData[index].feed.selection.baseOffset,
+              feedData[index].feed.selection.extentOffset).trim()));
+      print(feedData[index].tags.length);
+      feedMid.tags = feedData[index].tags;
+      feedMid.addTags(tag);
+      print("MIDDLE TEXT : ${feedMid.tags.length}");
+      temp.add(feedMid);
 
-    temp.add(
-        Feeds(TextEditingController(text: feedData[index].feed.text.substring(
-            feedData[index].feed.selection.baseOffset,
-            feedData[index].feed.selection.extentOffset).trim())));
-
-    if (feedData[index].feed.selection.extentOffset !=
-        feedData[index].feed.text.length) {
-      temp.add(
-          Feeds(TextEditingController(text: feedData[index].feed.text.substring(
-              feedData[index].feed.selection.extentOffset,
-              feedData[index].feed.text.length)
-              .trim())));
+      if (feedData[index].feed.selection.extentOffset !=
+          feedData[index].feed.text.length) {
+        print(feedData[index].tags);
+        Feeds feed = Feeds(
+            TextEditingController(text: feedData[index].feed.text.substring(
+                feedData[index].feed.selection.extentOffset,
+                feedData[index].feed.text.length)
+                .trim()));
+        feed.tags = feedData[index].tags;
+        print("BOTTOM TEXT : ${feed.tags.length}");
+        temp.add(feed);
+      }
+    } else {
+      print("please select the text to be tagged ");
+      temp.add(feedData[index]);
     }
-  } else {
-    print("please select the text to be tagged ");
-    temp.add(feedData[index]);
+    for (int i = index + 1; i < feedData.length; i++) {
+      temp.add(feedData[i]);
+    }
+    for (int i = 0; i < temp.length; i++) {
+      print(" Lenght ${i} : ${temp[i].tags.length}");
+    }
+    feedData = temp;
   }
-  for (int i = index + 1; i < feedData.length; i++) {
-    temp.add(feedData[i]);
-  }
-  feedData = temp;
 }

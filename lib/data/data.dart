@@ -11,7 +11,7 @@ class Tags {
 class Feeds {
   TextEditingController feed;
 
-  List<Tags> tags;
+  List<Tags> tags = [];
 
   Feeds(this.feed);
 
