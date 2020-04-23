@@ -124,7 +124,7 @@ class _StartUpState extends State<StartUp> {
 //                              print("Starting Index : ${feedData[index].selection.baseOffset}" );
 //                              print("Ending Index : ${feedData[index].selection.extentOffset}" );
                               Tags tag = _onAlertWithCustomContentPressed();
-                              _splitFeeds(index, tag);
+                              _tagText(index, tag);
                             });
                           },
                         ),
@@ -267,13 +267,86 @@ class _StartUpState extends State<StartUp> {
     }
 
     /// selected type
-    if (startIndex == 0 && endIndex == textLength) {
-      /// full text.
-      changedFeeds.add(feedData[index]);
+    ///
+    if (startIndex == endIndex) {
+      print("Not selected ! ");
     }
-    else if (startIndex == 0 || endIndex == textLength) {
-      
+    else if (startIndex == 0 && endIndex == textLength) {
+      /// full text selected.
+      changedFeeds.add(feedData[index].addTags(tag));
+    }
+    else if (startIndex == 0) {
+      /// text splits into 2 .
+      /// upper part  selected.
+      Feeds selectedFeed = Feeds(TextEditingController(
+          text: feedData[index].feed.text.substring(startIndex, endIndex)
+              .trim()),);
+      Feeds unselectedFeed = Feeds(TextEditingController(
+          text: feedData[index].feed.text.substring(endIndex, textLength)
+              .trim()),);
 
+      /// previous tags.
+      selectedFeed.tags = feedData[index].tags;
+      unselectedFeed.tags = feedData[index].tags;
+
+      /// adding the new tag to the selected tag.
+      selectedFeed.addTags(tag);
+
+      /// pushing into the list in order.
+      changedFeeds.add(selectedFeed);
+      changedFeeds.add(unselectedFeed);
     }
+    else if (endIndex == textLength) {
+      /// text splits into 2 .
+      /// lower part selected .
+      Feeds unselectedFeed = Feeds(TextEditingController(
+          text: feedData[index].feed.text.substring(0, startIndex).trim()),);
+      Feeds selectedFeed = Feeds(TextEditingController(
+          text: feedData[index].feed.text.substring(startIndex, endIndex)
+              .trim()),);
+
+      /// previous tags.
+      selectedFeed.tags = feedData[index].tags;
+      unselectedFeed.tags = feedData[index].tags;
+
+      /// adding the new tag to the selected tag.
+      selectedFeed.addTags(tag);
+
+      /// pushing into the list in order.
+      changedFeeds.add(unselectedFeed);
+      changedFeeds.add(selectedFeed);
+    }
+    else {
+      /// text splits into 3.
+      Feeds upperUnselectedFeed = Feeds(TextEditingController(
+          text: feedData[index].feed.text.substring(0, startIndex).trim()),);
+      Feeds selectedFeed = Feeds(TextEditingController(
+          text: feedData[index].feed.text.substring(startIndex, endIndex)
+              .trim()),);
+      Feeds lowerUnselectedFeed = Feeds(TextEditingController(
+          text: feedData[index].feed.text.substring(endIndex, textLength)
+              .trim()),);
+
+      /// previous Tags
+      upperUnselectedFeed.tags = feedData[index].tags;
+      selectedFeed.tags = feedData[index].tags;
+      lowerUnselectedFeed.tags = feedData[index].tags;
+
+      /// adding the new tag to the selected tag.
+      selectedFeed.addTags(tag);
+
+      /// pushing into the list in order.
+      changedFeeds.add(upperUnselectedFeed);
+      changedFeeds.add(selectedFeed);
+      changedFeeds.add(lowerUnselectedFeed);
+    }
+
+
+    for (int i = index + 1; i < feedData.length; i++) {
+      changedFeeds.add(feedData[i]);
+    }
+
+    /// update the feedData to changedFeeds.
+    feedData = changedFeeds;
   }
 }

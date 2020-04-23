@@ -15,8 +15,8 @@ class Feeds {
 
   Feeds(this.feed);
 
-  addTags(Tags items) {
-    tags.add(items);
+  addTags(Tags tag) {
+    tags.add(tag);
   }
 }
 
