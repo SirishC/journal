@@ -203,9 +203,10 @@ class _StartUpState extends State<StartUp> {
         ]).show();
     return tag;
   }
-  
+
   _tagText(index, tag) {
     List<Feeds> changedFeeds = [];
+    List<Tags> previousTags = [];
     bool flag = false;
     int startIndex = feedData[index].feed.selection.baseOffset;
     int endIndex = feedData[index].feed.selection.extentOffset;
@@ -239,8 +240,8 @@ class _StartUpState extends State<StartUp> {
               .trim()),);
 
       /// previous tags.
-      selectedFeed.tags = feedData[index].tags;
-      unselectedFeed.tags = feedData[index].tags;
+      selectedFeed.setTag(previousTags);
+      unselectedFeed.setTag(previousTags); 
 
       /// adding the new tag to the selected tag.
       selectedFeed.addTags(tag);
@@ -259,8 +260,8 @@ class _StartUpState extends State<StartUp> {
               .trim()),);
 
       /// previous tags.
-      selectedFeed.tags = feedData[index].tags;
-      unselectedFeed.tags = feedData[index].tags;
+      selectedFeed.setTag(previousTags);
+      unselectedFeed.setTag(previousTags);
 
       /// adding the new tag to the selected tag.
       selectedFeed.addTags(tag);
@@ -280,13 +281,15 @@ class _StartUpState extends State<StartUp> {
           text: feedData[index].feed.text.substring(endIndex, textLength)
               .trim()),);
 
+
       /// previous Tags
-      upperUnselectedFeed.tags = feedData[index].tags;
-      selectedFeed.tags = feedData[index].tags;
-      lowerUnselectedFeed.tags = feedData[index].tags;
+      upperUnselectedFeed.setTag(previousTags);
+      selectedFeed.setTag(previousTags);
+      lowerUnselectedFeed.setTag(previousTags);
 
       /// adding the new tag to the selected tag.
       selectedFeed.addTags(tag);
+
 
       /// pushing into the list in order.
       changedFeeds.add(upperUnselectedFeed);
@@ -298,13 +301,7 @@ class _StartUpState extends State<StartUp> {
     for (int i = index + 1; i < feedData.length; i++) {
       changedFeeds.add(feedData[i]);
     }
-
     /// update the feedData to changedFeeds.
-    ///
     if (!flag) feedData = changedFeeds;
-
-
-    print(feedData[0].feed.text);
-    print(feedData.length);
   }
 }

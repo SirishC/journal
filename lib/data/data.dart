@@ -14,9 +14,14 @@ class Feeds {
   List<Tags> tags = [];
 
   Feeds(this.feed);
-
   addTags(Tags tag) {
     tags.add(tag);
+  }
+
+  setTag(List<Tags> newTags) {
+    for (Tags tags in newTags) {
+      this.tags.add(tags);
+    }
   }
 }
 
