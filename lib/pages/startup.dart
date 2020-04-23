@@ -254,4 +254,26 @@ class _StartUpState extends State<StartUp> {
     }
     feedData = temp;
   }
+
+  _tagText(index, tag) {
+    List<Feeds> changedFeeds = [];
+    int startIndex = feedData[index].feed.selection.baseOffset;
+    int endIndex = feedData[index].feed.selection.extentOffset;
+    int textLength = feedData[index].feed.text.length;
+
+    /// adding the data inside the changed Data:
+    for (int i = 0; i < index; i++) {
+      changedFeeds.add(feedData[i]);
+    }
+
+    /// selected type
+    if (startIndex == 0 && endIndex == textLength) {
+      /// full text.
+      changedFeeds.add(feedData[index]);
+    }
+    else if (startIndex == 0 || endIndex == textLength) {
+      
+
+    }
+  }
 }
