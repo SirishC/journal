@@ -203,63 +203,15 @@ class _StartUpState extends State<StartUp> {
         ]).show();
     return tag;
   }
-
-  _splitFeeds(index, tag) {
-    List<Feeds> temp = [];
-    for (int i = 0; i < index; i++) {
-      temp.add(feedData[i]);
-    }
-    if (feedData[index].feed.selection.extentOffset -
-        feedData[index].feed.selection.baseOffset != 0) {
-      if (feedData[index].feed.selection.baseOffset != 0) {
-        Feeds feed = Feeds(TextEditingController(
-            text: feedData[index].feed.text.substring(
-                0, feedData[index].feed.selection.baseOffset).trim()));
-        print(feedData[index].tags.length);
-        feed.tags = feedData[index].tags;
-        print("UPPER TEXT :${feed.tags.length}");
-        temp.add(feed);
-      }
-      Feeds feedMid = Feeds(
-          TextEditingController(text: feedData[index].feed.text.substring(
-              feedData[index].feed.selection.baseOffset,
-              feedData[index].feed.selection.extentOffset).trim()));
-      print(feedData[index].tags.length);
-      feedMid.tags = feedData[index].tags;
-      feedMid.addTags(tag);
-      print("MIDDLE TEXT : ${feedMid.tags.length}");
-      temp.add(feedMid);
-
-      if (feedData[index].feed.selection.extentOffset !=
-          feedData[index].feed.text.length) {
-        print(feedData[index].tags);
-        Feeds feed = Feeds(
-            TextEditingController(text: feedData[index].feed.text.substring(
-                feedData[index].feed.selection.extentOffset,
-                feedData[index].feed.text.length)
-                .trim()));
-        feed.tags = feedData[index].tags;
-        print("BOTTOM TEXT : ${feed.tags.length}");
-        temp.add(feed);
-      }
-    } else {
-      print("please select the text to be tagged ");
-      temp.add(feedData[index]);
-    }
-    for (int i = index + 1; i < feedData.length; i++) {
-      temp.add(feedData[i]);
-    }
-    for (int i = 0; i < temp.length; i++) {
-      print(" Lenght ${i} : ${temp[i].tags.length}");
-    }
-    feedData = temp;
-  }
-
+  
   _tagText(index, tag) {
     List<Feeds> changedFeeds = [];
+    bool flag = false;
     int startIndex = feedData[index].feed.selection.baseOffset;
     int endIndex = feedData[index].feed.selection.extentOffset;
     int textLength = feedData[index].feed.text.length;
+    print(
+        " startIndex : $startIndex \n endIndex : $endIndex \n length : $textLength  \n ");
 
     /// adding the data inside the changed Data:
     for (int i = 0; i < index; i++) {
@@ -273,7 +225,8 @@ class _StartUpState extends State<StartUp> {
     }
     else if (startIndex == 0 && endIndex == textLength) {
       /// full text selected.
-      changedFeeds.add(feedData[index].addTags(tag));
+      flag = true;
+      feedData[index].addTags(tag);
     }
     else if (startIndex == 0) {
       /// text splits into 2 .
@@ -347,6 +300,11 @@ class _StartUpState extends State<StartUp> {
     }
 
     /// update the feedData to changedFeeds.
-    feedData = changedFeeds;
+    ///
+    if (!flag) feedData = changedFeeds;
+
+
+    print(feedData[0].feed.text);
+    print(feedData.length);
   }
 }
