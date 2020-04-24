@@ -211,8 +211,8 @@ class _StartUpState extends State<StartUp> {
     int startIndex = feedData[index].feed.selection.baseOffset;
     int endIndex = feedData[index].feed.selection.extentOffset;
     int textLength = feedData[index].feed.text.length;
-    print(
-        " startIndex : $startIndex \n endIndex : $endIndex \n length : $textLength  \n ");
+
+    previousTags = feedData[index].tags;
 
     /// adding the data inside the changed Data:
     for (int i = 0; i < index; i++) {
@@ -241,7 +241,7 @@ class _StartUpState extends State<StartUp> {
 
       /// previous tags.
       selectedFeed.setTag(previousTags);
-      unselectedFeed.setTag(previousTags); 
+      unselectedFeed.setTag(previousTags);
 
       /// adding the new tag to the selected tag.
       selectedFeed.addTags(tag);
