@@ -1,25 +1,26 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-class Tags {
+class CustomTags {
   String type;
   String name;
 
-  Tags(this.type, this.name);
+  CustomTags(this.type, this.name);
 }
 
 class Feeds {
   TextEditingController feed;
 
-  List<Tags> tags = [];
+  List<CustomTags> tags = [];
 
   Feeds(this.feed);
-  addTags(Tags tag) {
+
+  addTags(CustomTags tag) {
     tags.add(tag);
   }
 
-  setTag(List<Tags> newTags) {
-    for (Tags tags in newTags) {
+  setTag(List<CustomTags> newTags) {
+    for (CustomTags tags in newTags) {
       this.tags.add(tags);
     }
   }

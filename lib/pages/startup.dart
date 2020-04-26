@@ -4,6 +4,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:journal/data/data.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter_tags/flutter_tags.dart';
 
 
 class StartUp extends StatefulWidget {
@@ -16,14 +17,22 @@ class StartUp extends StatefulWidget {
 }
 
 class _StartUpState extends State<StartUp> {
+  final List<String> _list = [
+    '0',
+  ];
+  int _count = 0;
+  int _column = 0;
+  double _fontSize = 20;
   DateTime _dateTime = DateTime.now();
   bool _isVisible = false;
   String dropdownValue = 'Emotion';
-
+  final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
+  List _items;
 
   @override
   void initState() {
     super.initState();
+    _items = _list.toList();
   }
 
   @override
@@ -121,10 +130,7 @@ class _StartUpState extends State<StartUp> {
                           icon: EvaIcons.pricetags,
                           onTap: () {
                             setState(() {
-//                              print("Starting Index : ${feedData[index].selection.baseOffset}" );
-//                              print("Ending Index : ${feedData[index].selection.extentOffset}" );
-                              Tags tag = _onAlertWithCustomContentPressed();
-                              _tagText(index, tag);
+                              _onAlertWithCustomContentPressed(index);
                             });
                           },
                         ),
@@ -157,8 +163,8 @@ class _StartUpState extends State<StartUp> {
     );
   }
 
-  Tags _onAlertWithCustomContentPressed() {
-    Tags tag;
+  _onAlertWithCustomContentPressed(index) async {
+    CustomTags tag;
     TextEditingController tagController_type = new TextEditingController();
     TextEditingController tagController_name = new TextEditingController();
 
@@ -182,6 +188,7 @@ class _StartUpState extends State<StartUp> {
                 labelText: 'TAG NAME',
               ),
             ),
+
           ],
         ),
         buttons: [
@@ -189,7 +196,8 @@ class _StartUpState extends State<StartUp> {
             onPressed: () {
               setState(() {
                 tag =
-                new Tags(tagController_type.text, tagController_name.text);
+                new CustomTags(
+                    tagController_type.text, tagController_name.text);
                 print(
                     tagController_type.text + " : " + tagController_name.text);
               });
@@ -201,12 +209,12 @@ class _StartUpState extends State<StartUp> {
             ),
           )
         ]).show();
-    return tag;
+    _tagText(index, tag);
   }
 
   _tagText(index, tag) {
     List<Feeds> changedFeeds = [];
-    List<Tags> previousTags = [];
+    List<CustomTags> previousTags = [];
     bool flag = false;
     int startIndex = feedData[index].feed.selection.baseOffset;
     int endIndex = feedData[index].feed.selection.extentOffset;
@@ -301,7 +309,60 @@ class _StartUpState extends State<StartUp> {
     for (int i = index + 1; i < feedData.length; i++) {
       changedFeeds.add(feedData[i]);
     }
+
     /// update the feedData to changedFeeds.
     if (!flag) feedData = changedFeeds;
   }
+
+  Widget get _tags1 {
+    return Tags(
+      key: _tagStateKey,
+      columns: _column,
+      itemCount: _items.length,
+      itemBuilder: (index) {
+        final item = _items[index];
+
+        return ItemTags(
+          key: Key(index.toString()),
+          index: index,
+          title: "Tags",
+          pressEnabled: false,
+//          activeColor: Colors.blueGrey[600],
+//          singleItem: _singleItem,
+//          splashColor: Colors.green,
+          combine: ItemTagsCombine.withTextBefore,
+//          image: index > 0 && index < 5
+//              ? ItemTagsImage(
+//              child: Image.network(
+//                "http://www.clipartpanda.com/clipart_images/user-66327738/download",
+//                width: 16 * _fontSize / 14,
+//                height: 16 * _fontSize / 14,
+//              ))
+//              : (1 == 1
+//              ? ItemTagsImage(
+//            image: NetworkImage(
+//                "https://d32ogoqmya1dw8.cloudfront.net/images/serc/empty_user_icon_256.v2.png"),
+//          )
+//              : null),
+//          icon: (item == '0' || item == '1' || item == '2')
+//              ? ItemTagsIcon(
+//            icon: _icon[int.parse(item)],
+//          )
+//              : null,
+          removeButton: ItemTagsRemoveButton(
+            onRemoved: () {
+              setState(() {
+                _items.removeAt(index);
+              });
+              return true;
+            },
+          ),
+          textStyle: TextStyle(
+            fontSize: _fontSize,
+          ),
+        );
+      },
+    );
+  }
 }
+

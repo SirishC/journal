@@ -36,6 +36,7 @@ dependencies:
   flutter_calendar: ^0.0.8
   rflutter_alert: ^1.0.3
   dropdownfield: 1.0.0
+  flutter_tags: "^0.4.8"
 
 dev_dependencies:
   flutter_test:
