@@ -4,6 +4,7 @@ import 'package:flutter_tags/flutter_tags.dart';
 import 'package:journal/data/data.dart';
 
 class AddingTag extends StatefulWidget {
+  ///Selected index and  Texts starting and ending Text.
   final index;
   final start;
   final end;
@@ -16,11 +17,15 @@ class AddingTag extends StatefulWidget {
 
 class _AddingTagState extends State<AddingTag> {
 
+
+  /// TagTypes.
   List<String> tagTypes = [
     "Emotion", "Person", "Place", "Custom"
   ];
   String selectedItem = 'Emotion';
   TextEditingController _controller = new TextEditingController();
+
+
   final List<String> _list = [
   ];
   final List<CustomTags> TagList = [
@@ -117,13 +122,15 @@ class _AddingTagState extends State<AddingTag> {
                           icon: Icon(Icons.add),
                           onPressed: () {
                             setState(() {
-                              _count++;
-                              _items.add(_controller.text);
-                              _type.add(selectedItem);
-                              CustomTags tag = new CustomTags(
-                                  selectedItem, _controller.text);
-                              _addingTagList.add(tag);
-                              _controller.text = "";
+                              if (_controller.text != "") {
+                                _count++;
+                                _items.add(_controller.text);
+                                _type.add(selectedItem);
+                                CustomTags tag = new CustomTags(
+                                    selectedItem, _controller.text);
+                                _addingTagList.add(tag);
+                                _controller.text = "";
+                              }
                               //_items.removeAt(3); _items.removeAt(10);
                             });
                           },
@@ -142,10 +149,9 @@ class _AddingTagState extends State<AddingTag> {
                   padding: EdgeInsets.symmetric(horizontal: 150),
                   child: RaisedButton(
                     onPressed: () {
-                      print(
-                          "Length of the Tags :${widget.start}  ${widget.end}");
                       _tagText(widget.index, _addingTagList);
-                      Navigator.pop(context, _addingTagList);
+                      if (_count != 0)
+                        Navigator.pop(context, _addingTagList);
                     },
                     child: Text(
                         'Add Tags',

@@ -29,15 +29,6 @@ class _HomeState extends State<Home> {
         bucket: bucket,
       ),
 
-//      floatingActionButton: FloatingActionButton.extended(
-//        elevation: 4.0,
-//        label: const Text('+',
-//          style: TextStyle(fontSize: 25),
-//        ),
-//        onPressed: () {},
-//      ),
-//      floatingActionButtonLocation:
-//      FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
 //        shape: CircularNotchedRectangle(),
         notchMargin: 2,

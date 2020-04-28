@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:journal/body.dart';
 import 'package:journal/pages/home.dart';
 
 void main() => runApp(MyApp());
