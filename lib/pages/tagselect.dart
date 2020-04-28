@@ -8,7 +8,7 @@ class TagSelect extends StatefulWidget {
 }
 
 class _TagSelectState extends State<TagSelect> {
-  List<String> items = <String>['Emotion', 'Person', 'Place', "Custom"];
+  List<String> tagTypes = <String>['Emotion', 'Person', 'Place', "Custom"];
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +22,11 @@ class _TagSelectState extends State<TagSelect> {
           });
         },
         selectedItemBuilder: (BuildContext context) {
-          return items.map<Widget>((String item) {
+          return tagTypes.map<Widget>((String item) {
             return Text(item);
           }).toList();
         },
-        items: items.map((String item) {
+        items: tagTypes.map((String item) {
           return DropdownMenuItem<String>(
             child: Text(item),
             value: item,

@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_tags/flutter_tags.dart';
+import 'package:journal/data/data.dart';
 
 class AddingTag extends StatefulWidget {
   final index;
@@ -12,16 +13,23 @@ class AddingTag extends StatefulWidget {
 }
 
 class _AddingTagState extends State<AddingTag> {
-  final List<String> _list = [];
+  List<String> tagTypes = [
+    "Emotion", "Person", "Place", "Custom"
+  ];
+  String selectedItem = 'Emotion';
+  TextEditingController _controller = new TextEditingController();
+  final List<String> _list = [
+  ];
   int _count = 0;
   int _column = 0;
   double _fontSize = 20;
   final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
   List _items;
-
+  List _type;
   void initState() {
     super.initState();
     _items = _list.toList();
+    _type = _list.toList();
   }
 
   @override
@@ -60,6 +68,37 @@ class _AddingTagState extends State<AddingTag> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
+                        child: DropdownButton<String>(
+                          value: selectedItem,
+                          onChanged: (String string) {
+                            setState(() {
+                              selectedItem = string;
+                            });
+                          },
+                          selectedItemBuilder: (BuildContext context) {
+                            return tagTypes.map<Widget>((String item) {
+                              return Text(item);
+                            }).toList();
+                          },
+                          items: tagTypes.map((String item) {
+                            return DropdownMenuItem<String>(
+                              child: Text(item),
+                              value: item,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      Container(
+                        width: 300,
+                        child: TextField(
+                          controller: _controller,
+                          decoration: InputDecoration(
+                            icon: Icon(EvaIcons.pricetags),
+                            labelText: 'TAG NAME',
+                          ),
+                        ),
+                      ),
+                      Container(
                         height: 30,
                         width: 30,
                         //color: Colors.blueGrey,
@@ -70,27 +109,14 @@ class _AddingTagState extends State<AddingTag> {
                           onPressed: () {
                             setState(() {
                               _count++;
-                              _items.add(_count.toString());
+                              _items.add(_controller.text);
+                              _type.add(selectedItem);
+                              _controller.text = "";
                               //_items.removeAt(3); _items.removeAt(10);
                             });
                           },
                         ),
-                      ),
-                      Container(
-                        height: 30,
-                        width: 30,
-                        //color: Colors.grey,
-                        child: IconButton(
-                          padding: EdgeInsets.all(0),
-                          //color: Colors.white,
-                          icon: Icon(Icons.refresh),
-                          onPressed: () {
-                            setState(() {
-                              _items = _list.toList();
-                            });
-                          },
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 ],
@@ -100,19 +126,6 @@ class _AddingTagState extends State<AddingTag> {
               padding: EdgeInsets.all(20),
             ),
             _tags1,
-//                Container(
-//                    padding: EdgeInsets.all(20),
-//                    child: Column(
-//                      children: <Widget>[
-//                        Divider(
-//                          color: Colors.blueGrey,
-//                        ),
-//                        Padding(
-//                          padding: EdgeInsets.symmetric(vertical: 20),
-//                          child: Text(_onPressed),
-//                        ),
-//                      ],
-//                    )),
           ])),
         ],
       ),
@@ -126,34 +139,24 @@ class _AddingTagState extends State<AddingTag> {
       itemCount: _items.length,
       itemBuilder: (index) {
         final item = _items[index];
+        final type = _type[index];
 
         return ItemTags(
           key: Key(index.toString()),
           index: index,
-          title: "Sirish",
+          title: item,
           pressEnabled: false,
-//          activeColor: Colors.blueGrey[600],
-//          singleItem: _singleItem,
-//          splashColor: Colors.green,
-          combine: ItemTagsCombine.withTextBefore,
-//          image: index > 0 && index < 5
-//              ? ItemTagsImage(
-//              child: Image.network(
-//                "http://www.clipartpanda.com/clipart_images/user-66327738/download",
-//                width: 16 * _fontSize / 14,
-//                height: 16 * _fontSize / 14,
-//              ))
-//              : (1 == 1
-//              ? ItemTagsImage(
-//            image: NetworkImage(
-//                "https://d32ogoqmya1dw8.cloudfront.net/images/serc/empty_user_icon_256.v2.png"),
-//          )
-//              : null),
-//          icon: (item == '0' || item == '1' || item == '2')
-//              ? ItemTagsIcon(
-//            icon: _icon[int.parse(item)],
-//          )
-//              : null,
+          combine: ItemTagsCombine.withTextAfter,
+          // ignore: unrelated_type_equality_checks
+          icon: type == "Emotion" ? ItemTagsIcon(
+            icon: Icons.insert_emoticon,
+          ) : type == "Person" ? ItemTagsIcon(
+            icon: Icons.person_outline,
+          ) : type == "Place" ? ItemTagsIcon(
+            icon: Icons.pin_drop,
+          ) : type == "Custom" ? ItemTagsIcon(
+            icon: Icons.loyalty,
+          ) : null,
           removeButton: ItemTagsRemoveButton(
             onRemoved: () {
               setState(() {

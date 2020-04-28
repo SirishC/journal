@@ -11,6 +11,7 @@ class SelectedTags extends StatefulWidget {
 }
 
 class _SelectedTagsState extends State<SelectedTags> {
+  List<String> tagTypes = <String>['Emotion', 'Person', 'Place', "Custom"];
   final List<String> _list = [
     '0',
   ];

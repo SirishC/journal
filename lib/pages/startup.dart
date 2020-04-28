@@ -28,7 +28,6 @@ class _StartUpState extends State<StartUp> {
   DateTime _dateTime = DateTime.now();
   bool _isVisible = false;
   String dropdownValue = 'Emotion';
-
 //  final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
 //  List _items;
 
