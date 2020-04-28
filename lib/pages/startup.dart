@@ -18,30 +18,19 @@ class StartUp extends StatefulWidget {
   _StartUpState createState() => _StartUpState();
 }
 
-class _StartUpState extends State<StartUp> {
-//  final List<String> _list = [
-//    '0',
-//  ];
-//  int _count = 0;
-//  int _column = 0;
-//  double _fontSize = 20;
+class _StartUpState extends State<StartUp> with AutomaticKeepAliveClientMixin {
   DateTime _dateTime = DateTime.now();
   bool _isVisible = false;
   String dropdownValue = 'Emotion';
-//  final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
-//  List _items;
+
+  bool get wantKeepAlive => true;
+
+  final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   void initState() {
     super.initState();
-//    _items = _list.toList();
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,69 +73,77 @@ class _StartUpState extends State<StartUp> {
               }),
         ],
       ),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                return Container(
-                  child: Slidable(
-                    actionPane: SlidableDrawerActionPane(),
-                    actionExtentRatio: 0.25,
-                    child: Container(
-                      padding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      body: PageStorage(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                  return Container(
+                    child: Slidable(
+                      actionPane: SlidableDrawerActionPane(),
+                      actionExtentRatio: 0.25,
                       child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              GestureDetector(
-                                child: TextField(
-                                  onChanged: (_) {
-                                    setState(() {
-                                      _isVisible = true;
-                                    });
-                                  },
-                                  controller: feedData[index].feed,
-                                  keyboardType: TextInputType.multiline,
-                                  autofocus: true,
-                                  maxLines: null,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Enter how your day went.",
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Container(
+                            child: Column(
+                              children: <Widget>[
+                                GestureDetector(
+                                  child: TextField(
+                                    onChanged: (_) {
+                                      setState(() {
+                                        _isVisible = true;
+                                      });
+                                    },
+                                    controller: feedData[index].feed,
+                                    keyboardType: TextInputType.multiline,
+                                    autofocus: true,
+                                    maxLines: null,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Enter how your day went.",
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Text(" No of Tagged :${feedData[index].tags
-                                  .length}")
-                            ],
-                          )),
-                    ),
-                    secondaryActions: <Widget>[
-                      GestureDetector(
-                        child: IconSlideAction(
-                          caption: 'Add Tags',
-                          color: Color(0xffFF7582),
-                          icon: EvaIcons.pricetags,
-                          onTap: () {
-//                            setState(() {
-//                              _onAlertWithCustomContentPressed(index);
-//                            });
-                            Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddingTag(index)),
-                            );
-                          },
-                        ),
+                                Text(" No of Tagged :${feedData[index].tags
+                                    .length}")
+                              ],
+                            )),
                       ),
-                    ],
-                  ),
-                );
-              },
-              childCount: feedData.length,
+                      secondaryActions: <Widget>[
+                        GestureDetector(
+                          child: IconSlideAction(
+                            caption: 'Add Tags',
+                            color: Color(0xffFF7582),
+                            icon: EvaIcons.pricetags,
+                            onTap: () {
+//                            setState(() {
+//                              _onAlertWithCustomContentPressed(index, );
+//                            });
+                              Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AddingTag(index,
+                                            feedData[index].feed.selection
+                                                .baseOffset,
+                                            feedData[index].feed.selection
+                                                .extentOffset)),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                childCount: feedData.length,
 //              childCount: 0,
-            ),
-          )
-        ],
+              ),
+            )
+          ],
+        ),
+        bucket: bucket,
       ),
       floatingActionButton: Visibility(
         visible: _isVisible,
@@ -166,74 +163,35 @@ class _StartUpState extends State<StartUp> {
     );
   }
 
-  _onAlertWithCustomContentPressed(index) async {
-    CustomTags tag;
-    TextEditingController tagController_type = new TextEditingController();
-    TextEditingController tagController_name = new TextEditingController();
-
-    Alert(
-        context: context,
-        title: "ADD TAGS",
-        content: Column(
-          children: <Widget>[
-            TagSelect(),
-            TextField(
-              controller: tagController_name,
-              decoration: InputDecoration(
-                icon: Icon(EvaIcons.pricetags),
-                labelText: 'TAG NAME',
-              ),
-              onChanged: (_) {
-                print(tagController_name.text);
-              },
-            ),
-            SelectedTags(tagController_name.text),
-//            Container(
-//              height: 30,
-//              width: 30,
-//              //color: Colors.blueGrey,
-//              child: IconButton(
-//                padding: EdgeInsets.all(0),
-//                //color: Colors.white,
-//                icon: Icon(Icons.add),
-//                onPressed: () {
-//                  setState(() {
-//                    _count++;
-//                    _items.add(_count.toString());
-//                    //_items.removeAt(3); _items.removeAt(10);
-//                  });
-//                },
-//              ),
+//  _onAlertWithCustomContentPressed(index, int baseOffset) async {
+//    AlertDialog(
+//        content:
+//            AddingTag(index),
+//
+//        actions: <Widget>[
+//          DialogButton(
+//            onPressed: () {
+//              setState(() {
+//                print(selectedItem);
+////                tag = new CustomTags(
+////                    tagController_type.text, tagController_name.text);
+//
+//
+//              });
+//              Navigator.pop(context);
+//            },
+//            child: Text(
+//              "ADD TAG",
+//              style: TextStyle(color: Colors.white, fontSize: 20),
 //            ),
-//            _tags1,
-          ],
-        ),
-        buttons: [
-          DialogButton(
-            onPressed: () {
-              setState(() {
-                print(selectedItem);
-//                tag = new CustomTags(
-//                    tagController_type.text, tagController_name.text);
+//          )
+//        ],
+//        );
+////    _tagText(index, tag);
+//  }
 
 
-              });
-              Navigator.pop(context);
-            },
-            child: Text(
-              "ADD TAG",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          )
-        ]).show();
-//    _tagText(index, tag);
-  }
-
-
-
-
-
-  _tagText(index, tag) {
+  _tagText(index, newTagList) {
     List<Feeds> changedFeeds = [];
     List<CustomTags> previousTags = [];
     bool flag = false;
@@ -255,7 +213,8 @@ class _StartUpState extends State<StartUp> {
     } else if (startIndex == 0 && endIndex == textLength) {
       /// full text selected.
       flag = true;
-      feedData[index].addTags(tag);
+      for (CustomTags tag in newTagList)
+        feedData[index].addTags(tag);
     } else if (startIndex == 0) {
       /// text splits into 2 .
       /// upper part  selected.
@@ -281,7 +240,8 @@ class _StartUpState extends State<StartUp> {
       unselectedFeed.setTag(previousTags);
 
       /// adding the new tag to the selected tag.
-      selectedFeed.addTags(tag);
+      for (CustomTags tag in newTagList)
+        selectedFeed.addTags(tag);
 
       /// pushing into the list in order.
       changedFeeds.add(selectedFeed);
@@ -307,7 +267,8 @@ class _StartUpState extends State<StartUp> {
       unselectedFeed.setTag(previousTags);
 
       /// adding the new tag to the selected tag.
-      selectedFeed.addTags(tag);
+      for (CustomTags tag in newTagList)
+        selectedFeed.addTags(tag);
 
       /// pushing into the list in order.
       changedFeeds.add(unselectedFeed);
@@ -341,7 +302,8 @@ class _StartUpState extends State<StartUp> {
       lowerUnselectedFeed.setTag(previousTags);
 
       /// adding the new tag to the selected tag.
-      selectedFeed.addTags(tag);
+      for (CustomTags tag in newTagList)
+        selectedFeed.addTags(tag);
 
       /// pushing into the list in order.
       changedFeeds.add(upperUnselectedFeed);
@@ -356,6 +318,7 @@ class _StartUpState extends State<StartUp> {
     /// update the feedData to changedFeeds.
     if (!flag) feedData = changedFeeds;
   }
+}
 
 //  Widget get _tags1 {
 //    return Tags(
@@ -407,4 +370,4 @@ class _StartUpState extends State<StartUp> {
 //      },
 //    );
 //  }
-}
+

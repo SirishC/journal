@@ -5,14 +5,17 @@ import 'package:journal/data/data.dart';
 
 class AddingTag extends StatefulWidget {
   final index;
+  final start;
+  final end;
 
-  AddingTag(this.index);
+  AddingTag(this.index, this.start, this.end);
 
   @override
   _AddingTagState createState() => _AddingTagState();
 }
 
 class _AddingTagState extends State<AddingTag> {
+
   List<String> tagTypes = [
     "Emotion", "Person", "Place", "Custom"
   ];
@@ -20,16 +23,22 @@ class _AddingTagState extends State<AddingTag> {
   TextEditingController _controller = new TextEditingController();
   final List<String> _list = [
   ];
+  final List<CustomTags> TagList = [
+  ];
+
   int _count = 0;
   int _column = 0;
   double _fontSize = 20;
   final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
   List _items;
   List _type;
+  List<CustomTags> _addingTagList;
   void initState() {
     super.initState();
     _items = _list.toList();
     _type = _list.toList();
+    _addingTagList = [
+    ];
   }
 
   @override
@@ -111,6 +120,9 @@ class _AddingTagState extends State<AddingTag> {
                               _count++;
                               _items.add(_controller.text);
                               _type.add(selectedItem);
+                              CustomTags tag = new CustomTags(
+                                  selectedItem, _controller.text);
+                              _addingTagList.add(tag);
                               _controller.text = "";
                               //_items.removeAt(3); _items.removeAt(10);
                             });
@@ -126,6 +138,21 @@ class _AddingTagState extends State<AddingTag> {
               padding: EdgeInsets.all(20),
             ),
             _tags1,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 150),
+                  child: RaisedButton(
+                    onPressed: () {
+                      print(
+                          "Length of the Tags :${widget.start}  ${widget.end}");
+                      _tagText(widget.index, _addingTagList);
+                      Navigator.pop(context, _addingTagList);
+                    },
+                    child: Text(
+                        'Add Tags',
+                        style: TextStyle(fontSize: 20)
+                    ),
+                  ),
+                )
           ])),
         ],
       ),
@@ -161,6 +188,8 @@ class _AddingTagState extends State<AddingTag> {
             onRemoved: () {
               setState(() {
                 _items.removeAt(index);
+                _type.removeAt(index);
+                _addingTagList.removeAt(index);
               });
               return true;
             },
@@ -172,4 +201,131 @@ class _AddingTagState extends State<AddingTag> {
       },
     );
   }
+
+  _tagText(index, newTagList) {
+    List<Feeds> changedFeeds = [];
+    List<CustomTags> previousTags = [];
+    bool flag = false;
+    int startIndex = widget.start;
+    int endIndex = widget.end;
+    int textLength = feedData[index].feed.text.length;
+
+    previousTags = feedData[index].tags;
+
+    /// adding the data inside the changed Data:
+    for (int i = 0; i < index; i++) {
+      changedFeeds.add(feedData[i]);
+    }
+
+    /// selected type
+    if ((startIndex == endIndex) ||
+        (startIndex == 0 && endIndex == textLength)) {
+      /// full text selected.
+      flag = true;
+      for (CustomTags tag in newTagList)
+        feedData[index].addTags(tag);
+    } else if (startIndex == 0) {
+      /// text splits into 2 .
+      /// upper part  selected.
+      Feeds selectedFeed = Feeds(
+        TextEditingController(
+            text: feedData[index]
+                .feed
+                .text
+                .substring(startIndex, endIndex)
+                .trim()),
+      );
+      Feeds unselectedFeed = Feeds(
+        TextEditingController(
+            text: feedData[index]
+                .feed
+                .text
+                .substring(endIndex, textLength)
+                .trim()),
+      );
+
+      /// previous tags.
+      selectedFeed.setTag(previousTags);
+      unselectedFeed.setTag(previousTags);
+
+      /// adding the new tag to the selected tag.
+      for (CustomTags tag in newTagList)
+        selectedFeed.addTags(tag);
+
+      /// pushing into the list in order.
+      changedFeeds.add(selectedFeed);
+      changedFeeds.add(unselectedFeed);
+    } else if (endIndex == textLength) {
+      /// text splits into 2 .
+      /// lower part selected .
+      Feeds unselectedFeed = Feeds(
+        TextEditingController(
+            text: feedData[index].feed.text.substring(0, startIndex).trim()),
+      );
+      Feeds selectedFeed = Feeds(
+        TextEditingController(
+            text: feedData[index]
+                .feed
+                .text
+                .substring(startIndex, endIndex)
+                .trim()),
+      );
+
+      /// previous tags.
+      selectedFeed.setTag(previousTags);
+      unselectedFeed.setTag(previousTags);
+
+      /// adding the new tag to the selected tag.
+      for (CustomTags tag in newTagList)
+        selectedFeed.addTags(tag);
+
+      /// pushing into the list in order.
+      changedFeeds.add(unselectedFeed);
+      changedFeeds.add(selectedFeed);
+    } else {
+      /// text splits into 3.
+      Feeds upperUnselectedFeed = Feeds(
+        TextEditingController(
+            text: feedData[index].feed.text.substring(0, startIndex).trim()),
+      );
+      Feeds selectedFeed = Feeds(
+        TextEditingController(
+            text: feedData[index]
+                .feed
+                .text
+                .substring(startIndex, endIndex)
+                .trim()),
+      );
+      Feeds lowerUnselectedFeed = Feeds(
+        TextEditingController(
+            text: feedData[index]
+                .feed
+                .text
+                .substring(endIndex, textLength)
+                .trim()),
+      );
+
+      /// previous Tags
+      upperUnselectedFeed.setTag(previousTags);
+      selectedFeed.setTag(previousTags);
+      lowerUnselectedFeed.setTag(previousTags);
+
+      /// adding the new tag to the selected tag.
+      for (CustomTags tag in newTagList)
+        selectedFeed.addTags(tag);
+
+      /// pushing into the list in order.
+      changedFeeds.add(upperUnselectedFeed);
+      changedFeeds.add(selectedFeed);
+      changedFeeds.add(lowerUnselectedFeed);
+    }
+
+    for (int i = index + 1; i < feedData.length; i++) {
+      changedFeeds.add(feedData[i]);
+    }
+
+    /// update the feedData to changedFeeds.
+    if (!flag) feedData = changedFeeds;
+  }
+
 }
