@@ -34,7 +34,6 @@ class DailyFeeds {
   List<Feeds> feedData = [
     Feeds(TextEditingController()),
   ];
-
   DailyFeeds(this.date);
 }
 
