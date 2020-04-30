@@ -25,12 +25,16 @@ class _StartUpState extends State<StartUp> with AutomaticKeepAliveClientMixin {
   ///  persistent when there is a Route.
   bool get wantKeepAlive => true;
 
+  /// day wise feeds.
+  int day;
+
   /// Page Storage.
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   void initState() {
     super.initState();
+    day = 0;
   }
 
   @override
@@ -73,6 +77,15 @@ class _StartUpState extends State<StartUp> with AutomaticKeepAliveClientMixin {
                     .then((date) {
                   setState(() {
                     _dateTime = date;
+                    if (data.isContains(_dateTime)) {
+                      day = data.getItemByDate(
+                          formatDate(_dateTime, [M, ',', dd, ',', yyyy]));
+                    }
+                    else {
+                      data.add(formatDate(_dateTime, [M, ',', dd, ',', yyyy]));
+                      day = data.getItemByDate(
+                          formatDate(_dateTime, [M, ',', dd, ',', yyyy]));
+                    }
                   });
                 });
               }),
@@ -103,7 +116,8 @@ class _StartUpState extends State<StartUp> with AutomaticKeepAliveClientMixin {
                                         _isVisible = true;
                                       });
                                     },
-                                    controller: feedData[index].feed,
+                                    controller: data.dailyFeeds[day]
+                                        .feedData[index].feed,
                                     keyboardType: TextInputType.multiline,
                                     autofocus: true,
                                     maxLines: null,
@@ -117,23 +131,37 @@ class _StartUpState extends State<StartUp> with AutomaticKeepAliveClientMixin {
                                   spacing: 6.0,
                                   runSpacing: 6.0,
                                   children: List<Widget>.generate(
-                                      feedData[index].tags.length, (int items) {
+                                      data.dailyFeeds[day].feedData[index].tags
+                                          .length, (int items) {
                                     return Chip(
                                       avatar: Container(
-                                        child: feedData[index].tags[items]
+                                        child: data.dailyFeeds[day]
+                                            .feedData[index].tags[items]
+
+                                        ///
                                             .type == "Emotion" ? Icon(
                                             Icons.insert_emoticon) :
-                                        feedData[index].tags[items].type ==
+                                        data.dailyFeeds[day].feedData[index]
+                                            .tags[items].type ==
+
+                                            ///
                                             "Person" ? Icon(Icons.person) :
-                                        feedData[index].tags[items].type ==
+                                        data.dailyFeeds[day].feedData[index]
+                                            .tags[items].type ==
+
+                                            ///
                                             "Place" ? Icon(Icons.pin_drop) :
-                                        feedData[index].tags[items].type ==
+                                        data.dailyFeeds[day].feedData[index]
+                                            .tags[items].type ==
+
+                                            ///
                                             "Custom"
                                             ? Icon(Icons.loyalty)
                                             : null,
                                       ),
                                       label: Text(
-                                          feedData[index].tags[items].name),
+                                          data.dailyFeeds[day].feedData[index]
+                                              .tags[items].name),
                                     );
                                   }),
 
@@ -155,10 +183,12 @@ class _StartUpState extends State<StartUp> with AutomaticKeepAliveClientMixin {
                               Navigator.push(context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        AddingTag(index,
-                                            feedData[index].feed.selection
+                                        AddingTag(day, index,
+                                            data.dailyFeeds[day].feedData[index]
+                                                .feed.selection
                                                 .baseOffset,
-                                            feedData[index].feed.selection
+                                            data.dailyFeeds[day].feedData[index]
+                                                .feed.selection
                                                 .extentOffset)),
                               );
                             },
@@ -168,7 +198,7 @@ class _StartUpState extends State<StartUp> with AutomaticKeepAliveClientMixin {
                     ),
                   );
                 },
-                childCount: feedData.length,
+                childCount: data.dailyFeeds[day].feedData.length,
 //              childCount: 0,
               ),
             )

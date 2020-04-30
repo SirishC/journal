@@ -8,8 +8,9 @@ class AddingTag extends StatefulWidget {
   final index;
   final start;
   final end;
+  final day;
 
-  AddingTag(this.index, this.start, this.end);
+  AddingTag(this.day, this.index, this.start, this.end);
 
   @override
   _AddingTagState createState() => _AddingTagState();
@@ -212,15 +213,16 @@ class _AddingTagState extends State<AddingTag> {
     List<Feeds> changedFeeds = [];
     List<CustomTags> previousTags = [];
     bool flag = false;
+    int day = widget.day;
     int startIndex = widget.start;
     int endIndex = widget.end;
-    int textLength = feedData[index].feed.text.length;
+    int textLength = data.dailyFeeds[day].feedData[index].feed.text.length;
 
-    previousTags = feedData[index].tags;
+    previousTags = data.dailyFeeds[day].feedData[index].tags;
 
     /// adding the data inside the changed Data:
     for (int i = 0; i < index; i++) {
-      changedFeeds.add(feedData[i]);
+      changedFeeds.add(data.dailyFeeds[day].feedData[i]);
     }
 
     /// selected type
@@ -229,13 +231,13 @@ class _AddingTagState extends State<AddingTag> {
       /// full text selected.
       flag = true;
       for (CustomTags tag in newTagList)
-        feedData[index].addTags(tag);
+        data.dailyFeeds[day].feedData[index].addTags(tag);
     } else if (startIndex == 0) {
       /// text splits into 2 .
       /// upper part  selected.
       Feeds selectedFeed = Feeds(
         TextEditingController(
-            text: feedData[index]
+            text: data.dailyFeeds[day].feedData[index]
                 .feed
                 .text
                 .substring(startIndex, endIndex)
@@ -243,7 +245,7 @@ class _AddingTagState extends State<AddingTag> {
       );
       Feeds unselectedFeed = Feeds(
         TextEditingController(
-            text: feedData[index]
+            text: data.dailyFeeds[day].feedData[index]
                 .feed
                 .text
                 .substring(endIndex, textLength)
@@ -266,11 +268,12 @@ class _AddingTagState extends State<AddingTag> {
       /// lower part selected .
       Feeds unselectedFeed = Feeds(
         TextEditingController(
-            text: feedData[index].feed.text.substring(0, startIndex).trim()),
+            text: data.dailyFeeds[day].feedData[index].feed.text.substring(
+                0, startIndex).trim()),
       );
       Feeds selectedFeed = Feeds(
         TextEditingController(
-            text: feedData[index]
+            text: data.dailyFeeds[day].feedData[index]
                 .feed
                 .text
                 .substring(startIndex, endIndex)
@@ -292,11 +295,12 @@ class _AddingTagState extends State<AddingTag> {
       /// text splits into 3.
       Feeds upperUnselectedFeed = Feeds(
         TextEditingController(
-            text: feedData[index].feed.text.substring(0, startIndex).trim()),
+            text: data.dailyFeeds[day].feedData[index].feed.text.substring(
+                0, startIndex).trim()),
       );
       Feeds selectedFeed = Feeds(
         TextEditingController(
-            text: feedData[index]
+            text: data.dailyFeeds[day].feedData[index]
                 .feed
                 .text
                 .substring(startIndex, endIndex)
@@ -304,7 +308,7 @@ class _AddingTagState extends State<AddingTag> {
       );
       Feeds lowerUnselectedFeed = Feeds(
         TextEditingController(
-            text: feedData[index]
+            text: data.dailyFeeds[day].feedData[index]
                 .feed
                 .text
                 .substring(endIndex, textLength)
@@ -326,12 +330,12 @@ class _AddingTagState extends State<AddingTag> {
       changedFeeds.add(lowerUnselectedFeed);
     }
 
-    for (int i = index + 1; i < feedData.length; i++) {
-      changedFeeds.add(feedData[i]);
+    for (int i = index + 1; i < data.dailyFeeds[day].feedData.length; i++) {
+      changedFeeds.add(data.dailyFeeds[day].feedData[i]);
     }
 
     /// update the feedData to changedFeeds.
-    if (!flag) feedData = changedFeeds;
+    if (!flag) data.dailyFeeds[day].feedData = changedFeeds;
   }
 
 }

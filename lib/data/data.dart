@@ -1,18 +1,19 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:date_format/date_format.dart';
 
+/// CustomTag class.
 class CustomTags {
   String type;
   String name;
-
   CustomTags(this.type, this.name);
 }
 
+
+/// List of Feeds and lists of tags.
 class Feeds {
   TextEditingController feed;
-
   List<CustomTags> tags = [];
-
   Feeds(this.feed);
 
   addTags(CustomTags tag) {
@@ -26,65 +27,51 @@ class Feeds {
   }
 }
 
-List<Feeds> feedData = [
-  Feeds(TextEditingController()),
-];
 
-//class Feeds {
-//
-//  List<TextEditingController> testFeed = [
-//    init
-//  ];
-//  List<Tags>
-//  Feeds(String date, String feed) {
-//    this.date = date;
-//    addFeed(feed);
-//  }
-//
-//  void addFeed(String feed) {
-//    feeds.add(feed);
-//  }
-//}
-//
-//// list of Feeds.
-//class Data {
-//  final List<Feeds> items = [];
-//  int pos = null;
-//
-//  bool containsKey(String date) {
-//    for (int i = 0; i < items.length; i++)
-//      if (items[i].date == date) {
-//        pos = i;
-//        return true;
-//      }
-//    return false;
-//  }
-//
-//  void add(String date, String feed) {
-//    if (!items.isEmpty) items.clear();
-//    if (!data.containsKey(date)) {
-//      items.add(Feeds(date, feed));
-//    } else {
-//      items[pos].addFeed(feed);
-//    }
-//  }
-//
-//  int getKey(String date) {
-//    if (!data.containsKey(date)) {
-//    } else {
-//      for (int i = 0; i < items.length; i++) {
-//        if (items[i].date == date) return i;
-//      }
-//    }
-//    return 0;
-//  }
-//
-//  String getEvent(String date) {
-//    if (data.containsKey(date)) {
-//      for (int i = 0; i < items.length; i++) {
-//        if (items[i].date == date) return items[i].feeds[0];
-//      }
-//    }
-//    return "";
-//  }
-//}
+/// date wise feeds.
+class DailyFeeds {
+  String date;
+  List<Feeds> feedData = [
+    Feeds(TextEditingController()),
+  ];
+
+  DailyFeeds(this.date);
+}
+
+
+/// Overall Data.
+class Data {
+  List<DailyFeeds> dailyFeeds = [
+    DailyFeeds(formatDate(DateTime.now(), [ M, ',', dd, ',', yyyy]),)
+  ];
+
+
+  add(date) {
+    DailyFeeds newfeed = DailyFeeds(date);
+    this.dailyFeeds.add(newfeed);
+  }
+
+
+  bool isContains(date) {
+    for (int i = 0; i < dailyFeeds.length; i++) {
+      if (dailyFeeds[i].date == date) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  int getItemByDate(date) {
+    for (int i = 0; i < dailyFeeds.length; i++) {
+      if (dailyFeeds[i].date == date) {
+        return i;
+      }
+    }
+    return -1;
+  }
+}
+
+
+/// Object containing overall data .
+Data data = new Data();
