@@ -104,7 +104,7 @@ class _AddingTagState extends State<AddingTag> {
                         ),
                       ),
                       Container(
-                        width: 300,
+                        width: 250,
                         child: TextField(
                           controller: _controller,
                           decoration: InputDecoration(

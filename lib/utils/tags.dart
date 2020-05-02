@@ -1,36 +1,34 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:journal/data/data.dart';
 
-class Tags {
+class AutoCompleteTags {
   String keyword;
   int id;
 
-  Tags({
+  AutoCompleteTags({
     this.keyword,
     this.id,
   });
 
-  factory Tags.fromJson(Map<String, dynamic> parsedJson) {
-    return Tags(
-      keyword: parsedJson['keyword'] as String,
-      id: parsedJson['id'],
+  factory AutoCompleteTags.fromData(name, id) {
+    return AutoCompleteTags(
+      keyword: name,
+      id: id,
     );
   }
 }
 
 class TagsViewModel {
-  static List<Tags> tags;
+  static List<AutoCompleteTags> tags;
 
   static Future loadTags() async {
     try {
-      tags = new List<Tags>();
-      String jsonString = await rootBundle.loadString('assets/jsons/tags.json');
-      Map parsedJson = json.decode(jsonString);
-      var categoryJson = parsedJson['tags'] as List;
-      for (int i = 0; i < categoryJson.length; i++) {
-        tags.add(new Tags.fromJson(categoryJson[i]));
-      }
+      tags = new List<AutoCompleteTags>();
+          for(int i =0;i<overallData.tagsUsed.length;i++){
+            tags.add(new AutoCompleteTags.fromData(overallData.tagsUsed[i], i));
+          }
     } catch (e) {
       print(e);
     }

@@ -18,6 +18,8 @@ class Feeds {
 
   addTags(CustomTags tag) {
     tags.add(tag);
+    /// adding to overall data.
+    overallData.addTagCount(tag);
   }
 
   setTag(List<CustomTags> newTags) {
@@ -71,6 +73,42 @@ class Data {
   }
 }
 
+class OverallData {
+  List<String> tagsUsed = [];
+  List<String> emotionTags=[];
+  List<String> personTags=[];
+  List<String> placeTags=[];
+  List<String> userTags=[];
+  addTagCount(tag){
+    if (!tagsUsed.contains(tag.name))
+      tagsUsed.add(tag.name);
+    if(tag.type == "Emotion"){
+      if(!emotionTags.contains(tag.name))
+        emotionTags.add(tag.name);
+    }
+    else if(tag.type == "Person"){
+      if(!personTags.contains(tag.name)){
+        personTags.add(tag.name);
+      }
+    }
+    else if(tag.type == "Place"){
+      if(!placeTags.contains(tag.name)){
+        placeTags.add(tag.name);
+      }
+    }
+    else{
+      if(!userTags.contains(tag.name)){
+        userTags.add(tag.name);
+      }
+    }
+  }
+}
 
 /// Object containing overall data .
 Data data = new Data();
+
+OverallData overallData = new OverallData();
+
+
+/// Dynamic list
+List<Feeds> searchData = [];

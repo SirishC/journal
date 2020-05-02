@@ -1,7 +1,9 @@
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:journal/utils//autocomplete.dart';
+import 'package:journal/utils/autocomplete.dart';
+import 'package:journal/utils/searchview.dart';
+import '../data/data.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -9,8 +11,7 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-
-  final TextEditingController _searchQuery = new TextEditingController();
+  String _selectedText ;
   bool _st = true;
 
   @override
@@ -21,9 +22,10 @@ class _SearchState extends State<Search> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: _st
-            ? Text("Search Events",
+            ?
+        Text("Search Events",
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.normal),)
-            : AutoComplete(),
+            : AutoComplete(_selectedText),
         leading: IconButton(
           icon: Icon(EvaIcons.menu2Outline,
             color: Color(0xffFF7582),),
@@ -39,7 +41,6 @@ class _SearchState extends State<Search> {
                   setState(() {
                     _st = false;
                   });
-                  print("hii");
                 },
                 child: Icon(Icons.search, size: 30.0,),
               )
@@ -61,7 +62,7 @@ class _SearchState extends State<Search> {
           ),
         ],
       ),
+      body: !_st?SearchView():null,
     );
   }
-
 }
