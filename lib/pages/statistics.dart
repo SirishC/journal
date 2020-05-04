@@ -158,11 +158,16 @@ class _StatisticsState extends State<Statistics> {
       }
     else
       emotionList.add(EmotionCount("NoEmotions", 1));
+
+
+    for (EmotionCount ec in emotionList) {
+      print("emotion  :${ec.Emotion}   ,  Count :${ec.count}");
+    }
   }
 
   _isContains(tag) {
     for (int i = 0; i < emotionList.length; i++) {
-      if (emotionList[i].count == tag) {
+      if (emotionList[i].Emotion == tag) {
         return i;
       }
     }
@@ -177,8 +182,9 @@ class OrdinalUser {
   OrdinalUser(this.name, this.count);
 }
 // Class for Pie Graph.
-//class EmotionCount {
-//  final String Emotion;
-//   int count;
-//  EmotionCount(this.Emotion, this.count);
-//}
+class EmotionCount {
+  final String Emotion;
+  int count;
+
+  EmotionCount(this.Emotion, this.count);
+}

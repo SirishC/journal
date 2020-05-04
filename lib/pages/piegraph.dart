@@ -14,6 +14,7 @@ class PieOutsideLabelChart extends StatelessWidget {
         animate: animate,
         defaultRenderer: new charts.ArcRendererConfig(arcRendererDecorators: [
           new charts.ArcLabelDecorator(
+              leaderLineColor: charts.Color.black,
               labelPosition: charts.ArcLabelPosition.inside)
         ]));
   }

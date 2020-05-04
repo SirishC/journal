@@ -118,7 +118,6 @@ class OverallData {
     if (!tagsUsed.contains(tag.name))
       tagsUsed.add(tag.name);
     if(tag.type == "Emotion"){
-      if(!emotionTags.contains(tag.name))
         emotionTags.add(tag.name);
     }
     else if(tag.type == "Person"){
@@ -142,7 +141,6 @@ class OverallData {
 class EmotionCount {
   final String Emotion;
   int count;
-
   EmotionCount(this.Emotion, this.count);
 }
 /// Object containing overall data .
