@@ -14,21 +14,18 @@ class Statistics extends StatefulWidget {
 class _StatisticsState extends State<Statistics> {
   List<EmotionCount> emotionList = [
   ];
+  List<OrdinalUser> peopleList = [
+  ];
 
   void initState() {
     super.initState();
     _AddEmotions();
+    _AddUsers();
   }
 
   // Bar Graph data
   List<charts.Series<OrdinalUser, String>> _userData() {
-    final data = [
-      new OrdinalUser('Sirish', 24),
-      new OrdinalUser('Preethi', 16),
-      new OrdinalUser('Murali', 10),
-      new OrdinalUser('PK', 5),
-      new OrdinalUser("Gowtham", 1)
-    ];
+    final data = peopleList;
 
     return [
       new charts.Series<OrdinalUser, String>(
@@ -87,8 +84,8 @@ class _StatisticsState extends State<Statistics> {
               ),
               Center(
                 child: Text(
-                  "Instance of Anger",
-                  style: TextStyle(fontSize: 50),
+                  "People interacted .",
+                  style: TextStyle(fontSize: 40),
                 ),
               ),
               Container(
@@ -148,7 +145,7 @@ class _StatisticsState extends State<Statistics> {
     emotionList = [];
     if (overallData.emotionTags.length != 0)
       for (String tag in overallData.emotionTags) {
-        int pos = _isContains(tag);
+        int pos = _isContainsEmotion(tag);
         if (pos != -1) {
           emotionList[pos].count++;
         }
@@ -165,7 +162,7 @@ class _StatisticsState extends State<Statistics> {
     }
   }
 
-  _isContains(tag) {
+  _isContainsEmotion(tag) {
     for (int i = 0; i < emotionList.length; i++) {
       if (emotionList[i].Emotion == tag) {
         return i;
@@ -173,11 +170,52 @@ class _StatisticsState extends State<Statistics> {
     }
     return -1;
   }
+
+  _AddUsers() {
+    peopleList = [];
+    if (overallData.personTags.length != 0)
+      for (String person in overallData.personTags) {
+        int pos = _isContainsUsers(person);
+        if (pos != -1) {
+          peopleList[pos].count++;
+        }
+        else {
+          peopleList.add(OrdinalUser(person, 1));
+        }
+      }
+    else
+      peopleList.add(OrdinalUser("NoPeople", 0));
+
+
+    for (OrdinalUser ec in peopleList) {
+      print("people  :${ec.name}   ,  Count :${ec.count}");
+    }
+  }
+
+  _isContainsUsers(tag) {
+    for (int i = 0; i < peopleList.length; i++) {
+      if (peopleList[i].name == tag) {
+        return i;
+      }
+    }
+    return -1;
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
 // Class for Bar Graph.
 class OrdinalUser {
   final String name;
-  final int count;
+  int count;
 
   OrdinalUser(this.name, this.count);
 }
