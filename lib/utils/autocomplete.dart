@@ -23,16 +23,6 @@ class _AutoCompleteState extends State<AutoComplete> {
 
   _AutoCompleteState();
 
-  void _loadData() async {
-    await TagsViewModel.loadTags();
-  }
-
-  @override
-  void initState() {
-    _loadData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(

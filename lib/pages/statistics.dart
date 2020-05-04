@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:journal/data/data.dart';
 import 'package:journal/pages/bargraph.dart';
 import 'package:journal/pages/piegraph.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -9,6 +12,13 @@ class Statistics extends StatefulWidget {
 }
 
 class _StatisticsState extends State<Statistics> {
+  List<EmotionCount> emotionList = [
+  ];
+
+  void initState() {
+    super.initState();
+    _AddEmotions();
+  }
 
   // Bar Graph data
   List<charts.Series<OrdinalUser, String>> _userData() {
@@ -34,15 +44,8 @@ class _StatisticsState extends State<Statistics> {
 
   // Pie Graph data
   List<charts.Series<EmotionCount, String>> _emotionData() {
-    final data = [
-      new EmotionCount("anger", 21),
-      new EmotionCount("sad", 28),
-      new EmotionCount("disgusted", 7),
-      new EmotionCount("fearful", 10),
-      new EmotionCount("bad", 3),
-      new EmotionCount("happy", 17),
+    final data = emotionList;
 
-    ];
 
     return [
       new charts.Series<EmotionCount, String>(
@@ -140,8 +143,32 @@ class _StatisticsState extends State<Statistics> {
 
     );
   }
-}
 
+  _AddEmotions() {
+    emotionList = [];
+    if (overallData.emotionTags.length != 0)
+      for (String tag in overallData.emotionTags) {
+        int pos = _isContains(tag);
+        if (pos != -1) {
+          emotionList[pos].count++;
+        }
+        else {
+          emotionList.add(EmotionCount(tag, 1));
+        }
+      }
+    else
+      emotionList.add(EmotionCount("NoEmotions", 1));
+  }
+
+  _isContains(tag) {
+    for (int i = 0; i < emotionList.length; i++) {
+      if (emotionList[i].count == tag) {
+        return i;
+      }
+    }
+    return -1;
+  }
+}
 // Class for Bar Graph.
 class OrdinalUser {
   final String name;
@@ -150,9 +177,8 @@ class OrdinalUser {
   OrdinalUser(this.name, this.count);
 }
 // Class for Pie Graph.
-class EmotionCount {
-  final String Emotion;
-  final int count;
-
-  EmotionCount(this.Emotion, this.count);
-}
+//class EmotionCount {
+//  final String Emotion;
+//   int count;
+//  EmotionCount(this.Emotion, this.count);
+//}
