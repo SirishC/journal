@@ -25,7 +25,7 @@ class _SearchState extends State<Search> {
             ?
         Text("Search Events",
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.normal),)
-            : AutoComplete(_selectedText),
+            : AutoComplete(),
         leading: IconButton(
           icon: Icon(EvaIcons.menu2Outline,
             color: Color(0xffFF7582),),
@@ -63,7 +63,7 @@ class _SearchState extends State<Search> {
           ),
         ],
       ),
-      body: !_st?SearchView():null,
+      body: SearchView(),
     );
   }
 }

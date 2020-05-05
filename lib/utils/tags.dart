@@ -23,7 +23,7 @@ class AutoCompleteTags {
 class TagsViewModel {
   static List<AutoCompleteTags> tags;
 
-  static Future loadTags() async {
+  static Future loadTags() {
     try {
       tags = new List<AutoCompleteTags>();
           for(int i =0;i<overallData.tagsUsed.length;i++){

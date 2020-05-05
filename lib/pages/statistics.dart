@@ -202,16 +202,6 @@ class _StatisticsState extends State<Statistics> {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
 // Class for Bar Graph.
 class OrdinalUser {
   final String name;
