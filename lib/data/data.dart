@@ -73,42 +73,6 @@ class Data {
   }
 }
 
-
-//class EmotionStat {
-//  String emotion;
-//
-//  int count;
-//
-//  EmotionStat(this.emotion) {
-//    count = 0;
-//  }
-//
-//  List<EmotionStat> getEmotionStat() {
-//    List<EmotionStat> emotions = [
-//    ];
-//    for (String tag in overallData.tagsUsed) {
-//      int pos = isContains(emotions, tag);
-//      if (pos != -1) emotions[pos].count++;
-//      else emotions.add(EmotionStat(tag));
-//    }
-//  }
-//
-//  isContains(list, item) {
-//    for (int i = 0; i < list.lenght; i++)
-//      if (list[i].emotion == item) return i;
-//    return -1;
-//  }
-//
-//}
-
-//class PersonStat{
-//  String person;
-//  int count;
-//  PersonStat(this.person){
-//    person
-//  }
-//}
-
 class OverallData {
   List<String> tagsUsed = [];
   List<String> emotionTags=[];

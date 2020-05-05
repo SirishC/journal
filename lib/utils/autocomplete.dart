@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:journal/data/data.dart';
+import 'package:journal/utils//tags.dart';
 
 class AutoComplete extends StatefulWidget {
   @override
@@ -43,6 +44,9 @@ class _AutoCompleteState extends State<AutoComplete> {
                     itemSubmitted: (item) {
                       setState(() =>
                       searchTextField.textField.controller.text = item);
+                      print("Keyword : item");
+                      print("length : ${overallData.tagsUsed}");
+                      _updateSearchData(item);
                     },
                     clearOnSubmit: false,
                     key: key,
@@ -73,5 +77,23 @@ class _AutoCompleteState extends State<AutoComplete> {
               ])
             ]));
   }
-}
 
+  _updateSearchData(tagName) async {
+    searchData = [];
+    for (DailyFeeds dailyfeed in data.dailyFeeds) {
+      for (Feeds feed in dailyfeed.feedData) {
+        if (_isContains(feed, tagName)) {
+          searchData.add(feed);
+        }
+      }
+    }
+  }
+
+  _isContains(feed, tagName) {
+    for (CustomTags tag in feed.tags) {
+      if (tag.name == tagName)
+        return true;
+    }
+    return false;
+  }
+}

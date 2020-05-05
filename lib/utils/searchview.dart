@@ -46,7 +46,7 @@ class _SearchViewState extends State<SearchView> {
               new Text(
                 data.dailyFeeds[0].date,),
               new Text(
-                "happy  Preethi  coll",
+                "happy sirish preethi",
                 style: TextStyle(fontWeight: FontWeight.bold,),
               ),
             ],
