@@ -149,6 +149,7 @@ class _AddingTagState extends State<AddingTag> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 150),
                   child: RaisedButton(
+                    color: Color(0xffFF7582),
                     onPressed: () {
                       _tagText(widget.index, _addingTagList);
                       if (_count != 0)
@@ -156,7 +157,7 @@ class _AddingTagState extends State<AddingTag> {
                     },
                     child: Text(
                         'Add Tags',
-                        style: TextStyle(fontSize: 20)
+                        style: TextStyle(fontSize: 20, color: Colors.white)
                     ),
                   ),
                 )
@@ -185,7 +186,7 @@ class _AddingTagState extends State<AddingTag> {
           icon: type == "Emotion" ? ItemTagsIcon(
             icon: Icons.insert_emoticon,
           ) : type == "Person" ? ItemTagsIcon(
-            icon: Icons.person_outline,
+            icon: Icons.person,
           ) : type == "Place" ? ItemTagsIcon(
             icon: Icons.pin_drop,
           ) : type == "Custom" ? ItemTagsIcon(

@@ -225,3 +225,4 @@ class _StartUpState extends State<StartUp> with AutomaticKeepAliveClientMixin {
   }
 }
 
+

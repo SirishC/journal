@@ -81,9 +81,11 @@ class _AutoCompleteState extends State<AutoComplete> {
   _updateSearchData(tagName) async {
     searchData = [];
     for (DailyFeeds dailyfeed in data.dailyFeeds) {
+      String date = "";
       for (Feeds feed in dailyfeed.feedData) {
+        date = dailyfeed.date;
         if (_isContains(feed, tagName)) {
-          searchData.add(feed);
+          searchData.add(SearchData(date, feed));
         }
       }
     }

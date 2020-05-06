@@ -100,6 +100,17 @@ class OverallData {
     }
   }
 }
+
+class SearchData {
+  String date;
+
+  Feeds feedData;
+
+  SearchData(this.date, this.feedData);
+}
+
+
+
 /// Object containing overall data .
 Data data = new Data();
 
@@ -109,4 +120,4 @@ OverallData overallData = new OverallData();
 //EmotionStat emotionCount;
 
 /// Dynamic list
-List<Feeds> searchData = [];
+List<SearchData> searchData = [];
