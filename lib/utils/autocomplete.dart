@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:journal/data/data.dart';
-import 'package:journal/utils//tags.dart';
-
 class AutoComplete extends StatefulWidget {
   @override
   _AutoCompleteState createState() => new _AutoCompleteState();
