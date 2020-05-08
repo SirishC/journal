@@ -121,3 +121,18 @@ OverallData overallData = new OverallData();
 
 /// Dynamic list
 List<SearchData> searchData = [];
+
+
+/*
+
+tags[feedno , tagtype , tagname]
+feeds[date , text , feedno]
+
+
+
+
+
+
+
+
+ */

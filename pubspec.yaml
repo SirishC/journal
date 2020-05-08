@@ -39,6 +39,10 @@ dependencies:
   flutter_tags: "^0.4.8"
   flutter_calendar_carousel: ^1.3.10
   search_choices: ^1.0.15
+  path_provider: ^1.6.7
+  sqflite: any
+  intl: any
+
 
 dev_dependencies:
   flutter_test:
