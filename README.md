@@ -24,39 +24,7 @@ Introspective Journal  is a cloud-enabled, mobile-ready, offline-storage, Flutte
 - Place
 - Custom
 # Structure of Data stored.
-
-#### Class holding the entire data .
-```dart
-/// Overall Data.
-class Data {
-  List<DailyFeeds> dailyFeeds = [
-    DailyFeeds(formatDate(DateTime.now(), [ M, ',', dd, ',', yyyy]),)
-  ];
-  add(date) {
-    DailyFeeds newfeed = DailyFeeds(date);
-    this.dailyFeeds.add(newfeed);
-  }
-  bool isContains(date) {
-    for (int i = 0; i < dailyFeeds.length; i++) {
-      if (dailyFeeds[i].date == date) {
-        return true;
-      }
-    }
-    return false;
-  }
-  int getItemByDate(date) {
-    for (int i = 0; i < dailyFeeds.length; i++) {
-      if (dailyFeeds[i].date == date) {
-        return i;
-      }
-    }
-    return -1;
-  }
-}
-
-/// Object containing overall data .
-Data data = new Data();
-```
+![alt text](https://github.com/SirishC/journal/blob/master/assets/images/Dataflow.jpeg)
 
 # Todo.
 - [shared_preferences 0.5.7](https://pub.dev/packages/shared_preferences) not been implemented yet so data is lost once you close the application.
