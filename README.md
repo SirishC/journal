@@ -26,6 +26,10 @@ Introspective Journal  is a cloud-enabled, mobile-ready, offline-storage, Flutte
 # Structure of Data stored.
 ![alt text](https://github.com/SirishC/journal/blob/master/assets/images/Dataflow.jpeg)
 
+
+
+[Download the demo](https://github.com/SirishC/journal/raw/master/assets/images/demo.mp4)
+
 # Todo.
 - [shared_preferences 0.5.7](https://pub.dev/packages/shared_preferences) not been implemented yet so data is lost once you close the application.
 - UI Changes.
