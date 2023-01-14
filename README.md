@@ -41,5 +41,9 @@ Introspective Journal  is a cloud-enabled, mobile-ready, offline-storage, Flutte
 [Web Application Version](https://github.com/krishtna999/emotion-journal)
 _Support for WebApplication with same database. 🏗️:_ 
 
+For future improvements :
+[figma design template](https://www.figma.com/file/TCM8KcQ8dVSrekaD8XUq69/Introspective-Journal-Prototype-Design?node-id=1%3A9&t=sH0xcVNzU2tlgZJc-1) 
+
+
 #### Sirish | Happy Coding :hearts:
 
